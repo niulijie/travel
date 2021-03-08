@@ -11,12 +11,12 @@ import org.springframework.web.bind.annotation.RequestMapping;
 @RequestMapping("user")
 public class UserController {
 
-//    @GetMapping("/test")
-//    public void test(){
-//        AnnotationConfigApplicationContext applicationContext2 = new AnnotationConfigApplicationContext(MainScanConfig.class);
-//        String[] definitionNames = applicationContext2.getBeanDefinitionNames();
-//        for (String name : definitionNames) {
-//            System.out.println(name);
-//        }
-//    }
+    @GetMapping("/test")
+    public void test(){
+        AnnotationConfigApplicationContext applicationContext2 = new AnnotationConfigApplicationContext(MainScanConfig.class);
+        String[] definitionNames = applicationContext2.getBeanDefinitionNames();
+        for (String name : definitionNames) {
+            System.out.println(name);
+        }
+    }
 }

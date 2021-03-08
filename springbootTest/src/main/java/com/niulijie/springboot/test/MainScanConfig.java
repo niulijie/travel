@@ -1,6 +1,7 @@
 package com.niulijie.springboot.test;
 
 
+import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
 import org.springframework.context.annotation.Configuration;
 
@@ -11,4 +12,5 @@ import org.springframework.context.annotation.Configuration;
 @ComponentScan(value="com.niulijie.springboot")
 @Configuration
 public class MainScanConfig {
+
 }

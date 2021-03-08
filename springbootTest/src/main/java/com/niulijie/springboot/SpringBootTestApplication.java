@@ -23,6 +23,138 @@ public class SpringBootTestApplication {
         for (String beanName: beanDefinitionNames) {
             System.out.println(beanName);
         }
-        MainScanConfig bean = configurableApplicationContext.getBean(MainScanConfig.class);
+        /**
+         * org.springframework.context.annotation.internalConfigurationAnnotationProcessor
+         * org.springframework.context.annotation.internalAutowiredAnnotationProcessor
+         * org.springframework.context.annotation.internalCommonAnnotationProcessor
+         * org.springframework.context.event.internalEventListenerProcessor
+         * org.springframework.context.event.internalEventListenerFactory
+         * springBootTestApplication
+         * org.springframework.boot.autoconfigure.internalCachingMetadataReaderFactory
+         * userController =====
+         * userDao =====
+         * userService =====
+         * mainScanConfig =====
+         * org.springframework.boot.autoconfigure.AutoConfigurationPackages
+         * org.springframework.boot.autoconfigure.context.PropertyPlaceholderAutoConfiguration
+         * propertySourcesPlaceholderConfigurer
+         * org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration$TomcatWebSocketConfiguration
+         * websocketServletWebServerCustomizer
+         * org.springframework.boot.autoconfigure.websocket.servlet.WebSocketServletAutoConfiguration
+         * org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryConfiguration$EmbeddedTomcat
+         * tomcatServletWebServerFactory
+         * org.springframework.boot.autoconfigure.web.servlet.ServletWebServerFactoryAutoConfiguration
+         * servletWebServerFactoryCustomizer
+         * tomcatServletWebServerFactoryCustomizer
+         * org.springframework.boot.context.properties.ConfigurationPropertiesBindingPostProcessor
+         * org.springframework.boot.context.internalConfigurationPropertiesBinderFactory
+         * org.springframework.boot.context.internalConfigurationPropertiesBinder
+         * org.springframework.boot.context.properties.ConfigurationPropertiesBeanDefinitionValidator
+         * org.springframework.boot.context.properties.ConfigurationBeanFactoryMetadata
+         * server-org.springframework.boot.autoconfigure.web.ServerProperties
+         * webServerFactoryCustomizerBeanPostProcessor
+         * errorPageRegistrarBeanPostProcessor
+         * org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletConfiguration
+         * dispatcherServlet
+         * spring.mvc-org.springframework.boot.autoconfigure.web.servlet.WebMvcProperties
+         * spring.http-org.springframework.boot.autoconfigure.http.HttpProperties
+         * org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration$DispatcherServletRegistrationConfiguration
+         * dispatcherServletRegistration
+         * org.springframework.boot.autoconfigure.web.servlet.DispatcherServletAutoConfiguration
+         * org.springframework.boot.autoconfigure.task.TaskExecutionAutoConfiguration
+         * taskExecutorBuilder
+         * applicationTaskExecutor
+         * spring.task.execution-org.springframework.boot.autoconfigure.task.TaskExecutionProperties
+         * org.springframework.boot.autoconfigure.validation.ValidationAutoConfiguration
+         * defaultValidator
+         * methodValidationPostProcessor
+         * org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$WhitelabelErrorViewConfiguration
+         * error
+         * beanNameViewResolver
+         * org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration$DefaultErrorViewResolverConfiguration
+         * conventionErrorViewResolver
+         * org.springframework.boot.autoconfigure.web.servlet.error.ErrorMvcAutoConfiguration
+         * errorAttributes
+         * basicErrorController
+         * errorPageCustomizer
+         * preserveErrorControllerTargetClassPostProcessor
+         * spring.resources-org.springframework.boot.autoconfigure.web.ResourceProperties
+         * org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$EnableWebMvcConfiguration
+         * requestMappingHandlerAdapter
+         * requestMappingHandlerMapping
+         * welcomePageHandlerMapping
+         * mvcConversionService
+         * mvcValidator
+         * mvcContentNegotiationManager
+         * mvcPathMatcher
+         * mvcUrlPathHelper
+         * viewControllerHandlerMapping
+         * beanNameHandlerMapping
+         * routerFunctionMapping
+         * resourceHandlerMapping
+         * mvcResourceUrlProvider
+         * defaultServletHandlerMapping
+         * handlerFunctionAdapter
+         * mvcUriComponentsContributor
+         * httpRequestHandlerAdapter
+         * simpleControllerHandlerAdapter
+         * handlerExceptionResolver
+         * mvcViewResolver
+         * mvcHandlerMappingIntrospector
+         * org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration$WebMvcAutoConfigurationAdapter
+         * defaultViewResolver
+         * viewResolver
+         * requestContextFilter
+         * org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration
+         * formContentFilter
+         * org.springframework.boot.autoconfigure.jmx.JmxAutoConfiguration
+         * mbeanExporter
+         * objectNamingStrategy
+         * mbeanServer
+         * org.springframework.boot.autoconfigure.admin.SpringApplicationAdminJmxAutoConfiguration
+         * springApplicationAdminRegistrar
+         * org.springframework.boot.autoconfigure.aop.AopAutoConfiguration$ClassProxyingConfiguration
+         * org.springframework.boot.autoconfigure.aop.AopAutoConfiguration
+         * org.springframework.boot.autoconfigure.context.ConfigurationPropertiesAutoConfiguration
+         * org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$Jackson2ObjectMapperBuilderCustomizerConfiguration
+         * standardJacksonObjectMapperBuilderCustomizer
+         * spring.jackson-org.springframework.boot.autoconfigure.jackson.JacksonProperties
+         * org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperBuilderConfiguration
+         * jacksonObjectMapperBuilder
+         * org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$ParameterNamesModuleConfiguration
+         * parameterNamesModule
+         * org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration$JacksonObjectMapperConfiguration
+         * jacksonObjectMapper
+         * org.springframework.boot.autoconfigure.jackson.JacksonAutoConfiguration
+         * jsonComponentModule
+         * org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration$StringHttpMessageConverterConfiguration
+         * stringHttpMessageConverter
+         * org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration$MappingJackson2HttpMessageConverterConfiguration
+         * mappingJackson2HttpMessageConverter
+         * org.springframework.boot.autoconfigure.http.JacksonHttpMessageConvertersConfiguration
+         * org.springframework.boot.autoconfigure.http.HttpMessageConvertersAutoConfiguration
+         * messageConverters
+         * org.springframework.boot.autoconfigure.info.ProjectInfoAutoConfiguration
+         * spring.info-org.springframework.boot.autoconfigure.info.ProjectInfoProperties
+         * org.springframework.boot.autoconfigure.security.oauth2.resource.servlet.OAuth2ResourceServerAutoConfiguration
+         * spring.security.oauth2.resourceserver-org.springframework.boot.autoconfigure.security.oauth2.resource.OAuth2ResourceServerProperties
+         * org.springframework.boot.autoconfigure.task.TaskSchedulingAutoConfiguration
+         * taskSchedulerBuilder
+         * spring.task.scheduling-org.springframework.boot.autoconfigure.task.TaskSchedulingProperties
+         * org.springframework.boot.autoconfigure.web.client.RestTemplateAutoConfiguration
+         * restTemplateBuilder
+         * org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration$TomcatWebServerFactoryCustomizerConfiguration
+         * tomcatWebServerFactoryCustomizer
+         * org.springframework.boot.autoconfigure.web.embedded.EmbeddedWebServerFactoryCustomizerAutoConfiguration
+         * org.springframework.boot.autoconfigure.web.servlet.HttpEncodingAutoConfiguration
+         * characterEncodingFilter
+         * localeCharsetMappingsCustomizer
+         * org.springframework.boot.autoconfigure.web.servlet.MultipartAutoConfiguration
+         * multipartConfigElement
+         * multipartResolver
+         * spring.servlet.multipart-org.springframework.boot.autoconfigure.web.servlet.MultipartProperties
+         * org.springframework.aop.config.internalAutoProxyCreator
+         */
+
     }
 }
