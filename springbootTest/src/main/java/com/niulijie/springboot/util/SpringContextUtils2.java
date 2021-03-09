@@ -5,50 +5,34 @@ import org.springframework.beans.factory.BeanInitializationException;
 import org.springframework.beans.factory.InitializingBean;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.ApplicationContextAware;
-import org.springframework.stereotype.Component;
 
 /**
- * 普通类调用Spring bean对象
- * 在Spring Boot可以扫描的包下
- * 在Spring Boot可以扫描的包下,实现ApplicationContextAware接口，并加入Component注解，让spring扫描到该bean
- * 通过启动类里面的run方法在@Component标签给applicationContext赋值
+ * 不在Spring Boot的扫描包下方式一
+ * 实现接口：ApplicationContextAware
+ * 通过启动类里面的@Bean标签给applicationContext赋值
  * @author edz
  */
-@Component
-public class SpringContextUtils implements ApplicationContextAware {
+public class SpringContextUtils2 implements ApplicationContextAware {
+
     private static ApplicationContext applicationContext;
-
-
     /**
-     * 实现ApplicationContextAware接口的context注入函数, 将其存入静态变量.
      * Set the ApplicationContext that this object runs in.
      * Normally this call will be used to initialize the object.
-     * <p>Invoked after population of normal bean properties but before an init callback such(在填充普通bean属性之后但在init回调之前调用)
+     * <p>Invoked after population of normal bean properties but before an init callback such
      * as {@link InitializingBean#afterPropertiesSet()}
-     * or a custom init-method. Invoked after {@link ResourceLoaderAware#setResourceLoader},
-     * {@link ApplicationEventPublisherAware#setApplicationEventPublisher} and
-     * {@link MessageSourceAware}, if applicable.
-     *
-     * @param applicationContext the ApplicationContext object to be used by this object
-     * @throws ApplicationContextException in case of context initialization errors
      * @throws BeansException              if thrown by application context methods
      * @see BeanInitializationException
      */
     @Override
     public void setApplicationContext(ApplicationContext applicationContext) throws BeansException {
-        if(SpringContextUtils.applicationContext == null) {
-            SpringContextUtils.applicationContext = applicationContext;
+        if(SpringContextUtils2.applicationContext == null){
+            SpringContextUtils2.applicationContext = applicationContext;
         }
-
         System.out.println("---------------------------------------------------------------------");
-
-        System.out.println("---------------com.niulijie.springboot.util.SpringContextUtils------------------------------------------------------");
-
-        System.out.println("========ApplicationContext配置成功,SpringContextUtils.getAppContext()获取applicationContext对象,applicationContext="+SpringContextUtils.applicationContext+"========");
-
+        System.out.println("---------------com.niulijie.springboot.util.SpringContextUtils2赋值---------------------------------");
+        System.out.println("========ApplicationContext配置成功,在普通类可以通过调用SpringContextUtils2.getAppContext()获取applicationContext对象,applicationContext="+SpringContextUtils2.applicationContext+"========");
         System.out.println("---------------------------------------------------------------------");
     }
-
     /**
      * 获取applicationContext
      * @return

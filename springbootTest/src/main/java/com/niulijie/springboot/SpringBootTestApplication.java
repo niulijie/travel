@@ -8,16 +8,18 @@ import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.ComponentScan;
+import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
  * 1.定义扫描的路径从中找出标识了需要装配的类自动装配到spring的bean容器中,类似于<context:component-scan base-package="">
  *     @ComponentScan注解默认就会装配标识了@Controller，@Service，@Repository，@Component注解的类到spring容器中
- *
+ * 2.@Controller，@Service，@Repository注解，有一个共同的注解@Component
  */
 //@ComponentScan
 @SpringBootApplication
 public class SpringBootTestApplication {
     public static void main(String[] args) {
+        //run方法的返回值ConfigurableApplicationContext继承了ApplicationContext上下文接口
         ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(SpringBootTestApplication.class, args);
         String[] beanDefinitionNames = configurableApplicationContext.getBeanDefinitionNames();
         for (String beanName: beanDefinitionNames) {

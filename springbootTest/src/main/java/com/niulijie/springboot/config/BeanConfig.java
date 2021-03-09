@@ -6,6 +6,7 @@ import org.springframework.context.annotation.Configuration;
 import org.springframework.stereotype.Component;
 
 /**
+ * 在启动的时候先通过代码方式给spring容器中注入一个bean
  * @author niulijie
  */
 @Configuration

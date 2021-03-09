@@ -1,6 +1,7 @@
 package com.niulijie.springboot.controller;
 
 import com.niulijie.springboot.util.SpringContextUtils;
+import com.niulijie.springboot.util.SpringContextUtils2;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
@@ -16,4 +17,8 @@ public class TestApplicationContrller {
         return SpringContextUtils.getBean("testDemo");
     }
 
+    @RequestMapping("/test2")
+    public Object testSpringUtil2() {
+        return SpringContextUtils2.getBean("testDemo");
+    }
 }
