@@ -13,7 +13,10 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 /**
  * 1.定义扫描的路径从中找出标识了需要装配的类自动装配到spring的bean容器中,类似于<context:component-scan base-package="">
  *     @ComponentScan注解默认就会装配标识了@Controller，@Service，@Repository，@Component注解的类到spring容器中
- * 2.@Controller，@Service，@Repository注解，有一个共同的注解@Component
+ *    @Controller，@Service，@Repository注解，有一个共同的注解@Component
+ * 2.通过includeFilters加入扫描路径下没有以上注解的类加入spring容器
+ * 3.通过excludeFilters过滤出不用加入spring容器的类
+ * 4.自定义增加了@Component注解的注解方式
  */
 //@ComponentScan
 @SpringBootApplication
