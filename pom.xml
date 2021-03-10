@@ -29,6 +29,7 @@
     <modules>
         <module>jdk8</module>
         <module>springbootTest</module>
+        <module>Spring</module>
     </modules>
 
     <!-- 属性设置 -->

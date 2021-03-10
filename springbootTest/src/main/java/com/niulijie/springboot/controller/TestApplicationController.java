@@ -10,7 +10,7 @@ import org.springframework.web.bind.annotation.RestController;
  */
 @RestController
 @RequestMapping("/application")
-public class TestApplicationContrller {
+public class TestApplicationController {
 
     @RequestMapping("/test1")
     public Object testSpringUtil1() {

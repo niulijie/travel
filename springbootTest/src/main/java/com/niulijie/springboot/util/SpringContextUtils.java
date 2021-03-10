@@ -14,7 +14,7 @@ import org.springframework.stereotype.Component;
  * 通过启动类里面的run方法在@Component标签给applicationContext赋值
  * @author edz
  */
-@Component
+//@Component
 public class SpringContextUtils implements ApplicationContextAware {
     private static ApplicationContext applicationContext;
 
