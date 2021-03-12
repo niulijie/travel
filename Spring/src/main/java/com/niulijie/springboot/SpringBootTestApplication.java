@@ -19,6 +19,13 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  * 4.自定义增加了@Component注解的注解方式
  */
 //@ComponentScan
+/**
+ * 1.@SpringBootApplication这个注解, 它是由几个主要的注解共同组成的复合的注解
+ * 2.三个注解起了主导作用
+ *   @SpringBootConfiguration 相当于springboot的一个配置类
+ *   @EnableAutoConfiguration springboot自动配置，开启spring+mvc的自动化配置
+ *   @ComponentScan 配置包扫描，确保可以扫描到启动类父包下的所有类
+ */
 @SpringBootApplication
 public class SpringBootTestApplication {
     public static void main(String[] args) {

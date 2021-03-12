@@ -5,7 +5,15 @@
     <!-- pom模型版本 -->
     <modelVersion>4.0.0</modelVersion>
 
-    <!--所有的springboot应用都要以该工程为父工程-->
+    <!--所有的springboot应用都要以该工程为父工程
+        定义了 Java 编译版本为 1.8;
+        使用 UTF-8 格式编码;
+        继承自 spring-boot-dependencies, 这个里边定义了依赖的版本, 也正是因为 parent 继承了这个依赖, 所以我们在写依赖时才不需要写版本号;
+        执行打包操作的配置;
+        自动化的资源过滤;
+        自动化的插件配置;
+        针对 application.properties 和 application.yml 的资源过滤, 包括通过 profile 定义的不同环境的配置文件, 例如 application-dev.properties 和 application-dev.yml.
+    -->
     <parent>
         <groupId>org.springframework.boot</groupId>
         <artifactId>spring-boot-starter-parent</artifactId>
@@ -28,7 +36,6 @@
 
     <modules>
         <module>jdk8</module>
-        <module>springbootTest</module>
         <module>Spring</module>
     </modules>
 
