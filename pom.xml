@@ -37,6 +37,7 @@
     <modules>
         <module>jdk8</module>
         <module>Spring</module>
+        <module>juc</module>
     </modules>
 
     <!-- 属性设置 -->
