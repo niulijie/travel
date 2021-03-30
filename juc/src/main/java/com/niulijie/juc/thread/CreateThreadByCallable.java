@@ -43,5 +43,13 @@ public class CreateThreadByCallable implements Callable<String>{
         System.out.println("返回结果为------------>s1:"+s1+"--->s2:"+s2+"--->s3:"+s3);
         //关闭服务
         executorService.shutdownNow();
+
+        /**
+         * 调用方法2
+         */
+        FutureTask<String> futureTask = new FutureTask<String>(new CreateThreadByCallable("4"));
+        new Thread(futureTask).start();
+        String s4 = futureTask.get();
+        System.out.println("返回结果s4："+s4);
     }
 }
