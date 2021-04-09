@@ -38,6 +38,7 @@
         <module>jdk8</module>
         <module>Spring</module>
         <module>juc</module>
+        <module>X509v3Certificate</module>
     </modules>
 
     <!-- 属性设置 -->
