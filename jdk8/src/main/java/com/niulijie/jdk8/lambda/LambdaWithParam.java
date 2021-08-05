@@ -51,8 +51,28 @@ public class LambdaWithParam {
         /**
          * 总结：
          * 1.lambda表示式只能有一行的情况下才能简化成一行，如果有多行，就用代码块包裹
-         * 2.必须是函数式接口（接口只有一个方法）
+         * 2.必须是函数式接口（接口只有一个方法）,可以使用@FunctionalInterface 修饰,检查是否是函数式接口
          * 3.多个参数也可以去掉参数类型，要去掉就多去掉
+         *
+         * 语法格式一:无参数,无返回值
+         *   () -> System.out.println("Hello world");
+         *
+         * 语法格式二:有一个参数,并且无返回值
+         *   (x) -> System.out.println(x);
+         *
+         * 语法格式三:若有一个参数,小括号可以省略不写
+         *   x -> System.out.println(x);
+         *
+         * 语法格式四:若有两个以上的参数,有返回值,并且lambda体中有多条语句,需用大括号包围
+         *   (x,y) -> {
+         *      System.out.println(x)
+         *      return Inter.compare(x,y);
+         *   }
+         *
+         * 语法格式五:若lambda体重只有一条语句,return和大括号可以省略不写
+         *   Comparator<Integer> com = (x,y) -> Inter.compare(x,y);
+         *
+         * 语法格式六:lambda表达式参数列表的数据类型可以省略不写,JVM编译器通过上下文推断出数据类型,即"类型推断"
          */
     }
 }

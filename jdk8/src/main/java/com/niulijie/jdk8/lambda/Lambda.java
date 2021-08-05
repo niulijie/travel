@@ -37,7 +37,7 @@ public class Lambda {
         like.lambda();
 
         /**
-         * 匿名内部类：没有类的名称，必须借助接口或者父类
+         * 5.匿名内部类：没有类的名称，必须借助接口或者父类
          */
         like = new ILike() {
             @Override
