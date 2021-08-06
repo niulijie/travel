@@ -124,6 +124,5 @@ public class MethodReference {
         String[] apply2 = fun1.apply(30);
         System.out.println(apply2.length);
 
-
     }
 }
