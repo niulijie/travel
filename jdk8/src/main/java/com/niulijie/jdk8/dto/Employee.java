@@ -2,10 +2,14 @@ package com.niulijie.jdk8.dto;
 
 import java.util.Objects;
 
+/**
+ * @author niuli
+ */
 public class Employee {
     private String name;
     private Integer age;
     private double salary;
+    private Status status;
 
     public String getName() {
         return name;
@@ -29,6 +33,14 @@ public class Employee {
 
     public void setSalary(double salary) {
         this.salary = salary;
+    }
+
+    public Status getStatus() {
+        return status;
+    }
+
+    public void setStatus(Status status) {
+        this.status = status;
     }
 
     public Employee() {
@@ -55,5 +67,28 @@ public class Employee {
     @Override
     public int hashCode() {
         return Objects.hash(name, age, salary);
+    }
+
+    @Override
+    public String toString() {
+        return "Employee{" +
+                "name='" + name + '\'' +
+                ", age=" + age +
+                ", salary=" + salary +
+                ", status=" + status +
+                '}';
+    }
+
+    public Employee(String name, Integer age, double salary, Status status) {
+        this.name = name;
+        this.age = age;
+        this.salary = salary;
+        this.status = status;
+    }
+
+    public enum Status{
+        FREE,
+        BUSY,
+        VOCATION;
     }
 }
