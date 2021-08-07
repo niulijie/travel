@@ -38,6 +38,7 @@ public class TestForkJoin {
                 .reduce(0,Long::sum);
 
         Instant end1 = Instant.now();
-        System.out.println("耗费时间为："+ Duration.between(start1,end1).toMillis());
+        System. out.println("耗费时间为："+ Duration.between(start1,end1).toMillis());
+
     }
 }
