@@ -63,6 +63,4 @@ public class BindUserDeviceParam {
 
     @NotNull(message = "creator不能为空")
     private Integer creator;
-
-
 }
