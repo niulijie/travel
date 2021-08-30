@@ -25,5 +25,12 @@
             <artifactId>guava</artifactId>
             <version>22.0</version>
         </dependency>
+
+        <!--swagger 接口文档，测试使用，项目部署时连同启动类上的注解一起去掉-->
+        <dependency>
+            <groupId>io.springfox</groupId>
+            <artifactId>springfox-boot-starter</artifactId>
+            <version>3.0.0</version>
+        </dependency>
     </dependencies>
 </project>
