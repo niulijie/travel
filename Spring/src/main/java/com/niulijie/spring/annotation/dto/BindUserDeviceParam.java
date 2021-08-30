@@ -1,6 +1,6 @@
-package com.niulijie.spring.component.dto;
+package com.niulijie.spring.annotation.dto;
 
-import com.niulijie.spring.component.annotation.Phone;
+import com.niulijie.spring.annotation.Phone;
 import lombok.Data;
 
 import javax.validation.constraints.NotBlank;

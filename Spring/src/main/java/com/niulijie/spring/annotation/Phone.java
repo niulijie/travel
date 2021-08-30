@@ -1,4 +1,4 @@
-package com.niulijie.spring.component.annotation;
+package com.niulijie.spring.annotation;
 
 /**
  * @author zhoupengbing
