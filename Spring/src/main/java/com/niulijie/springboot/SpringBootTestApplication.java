@@ -3,6 +3,7 @@ package com.niulijie.springboot;
 //@EnableAutoConfiguration//启用springboot自动配置
 
 import com.niulijie.springboot.test.MainScanConfig;
+import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.context.ConfigurableApplicationContext;
@@ -27,6 +28,7 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *   @ComponentScan 配置包扫描，确保可以扫描到启动类父包下的所有类
  */
 @SpringBootApplication
+@MapperScan("com.niulijie.*.mapper")
 public class SpringBootTestApplication {
     public static void main(String[] args) {
         //run方法的返回值ConfigurableApplicationContext继承了ApplicationContext上下文接口

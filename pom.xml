@@ -61,11 +61,6 @@
     <!-- 依赖关系 -->
     <!--即使在子模块中不写该依赖项，那么子模块仍然会从父项目中继承该依赖项（全部继承-->
     <dependencies>
-        <dependency>
-            <groupId>org.springframework.boot</groupId>
-            <artifactId>spring-boot-autoconfigure</artifactId>
-            <version>${spring.boot.version}</version>
-        </dependency>
 
         <!--启动器：每一个启动器背后都是一堆的依赖，web启动器-->
         <dependency>
