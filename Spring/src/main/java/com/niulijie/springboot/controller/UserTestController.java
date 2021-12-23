@@ -6,6 +6,7 @@ import com.niulijie.springboot.entity.UserTest;
 import com.niulijie.springboot.enums.AgeEnum;
 import com.niulijie.springboot.enums.GenderEnum;
 import com.niulijie.springboot.enums.GradeEnum;
+import com.niulijie.springboot.mapper.UserTestMapper;
 import com.niulijie.springboot.service.UserTestService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -24,6 +25,8 @@ public class UserTestController {
     @Autowired
     private UserTestService userTestService;
 
+    @Autowired
+    private UserTestMapper userTestMapper;
     /**
      * @param
      */
@@ -34,8 +37,8 @@ public class UserTestController {
         userTest.setAge(AgeEnum.ONE);
         userTest.setSex(GenderEnum.FEMALE);
         userTest.setGrade(GradeEnum.PRIMARY);
-        boolean save = userTestService.save(userTest);
-        System.out.println("====="+save);
+        int insert = userTestMapper.insert(userTest);
+        System.out.println("====="+insert);
         return ResultUtil.ok(userTest);
     }
 

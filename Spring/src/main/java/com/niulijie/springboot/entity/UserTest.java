@@ -1,8 +1,8 @@
 package com.niulijie.springboot.entity;
 
-import com.baomidou.mybatisplus.annotation.IdType;
-import com.baomidou.mybatisplus.annotation.TableId;
-import com.baomidou.mybatisplus.annotation.TableName;
+import com.alibaba.excel.util.DateUtils;
+import com.baomidou.mybatisplus.annotation.*;
+import com.fasterxml.jackson.annotation.JsonFormat;
 import com.niulijie.springboot.enums.AgeEnum;
 import com.niulijie.springboot.enums.GenderEnum;
 import com.niulijie.springboot.enums.GradeEnum;
@@ -10,8 +10,10 @@ import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.experimental.Accessors;
+import org.springframework.format.annotation.DateTimeFormat;
 
 import java.io.Serializable;
+import java.time.LocalDateTime;
 
 /**
  * @author niulijie
@@ -27,7 +29,7 @@ public class UserTest implements Serializable {
     private static final long serialVersionUID = 165531383239264303L;
 
     /**
-     * 雪花算法
+     * 雪花算法--自动生成主键
      */
     @TableId(value = "user_id", type = IdType.ASSIGN_ID)
     private Long userid;
@@ -50,4 +52,19 @@ public class UserTest implements Serializable {
      */
     private GenderEnum sex;
 
+    /**
+     * 创建时间  @TableField(fill = FieldFill.INSERT) --自动填充功能
+     */
+    @TableField(fill = FieldFill.INSERT,value = "create_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private LocalDateTime createTime;
+
+    /**
+     * 修改时间
+     */
+    @TableField(fill = FieldFill.INSERT_UPDATE,value = "update_time")
+    @DateTimeFormat(pattern = "yyyy-MM-dd HH:mm:ss")
+    @JsonFormat(pattern = "yyyy-MM-dd HH:mm:ss",timezone="GMT+8")
+    private LocalDateTime updateTime;
 }

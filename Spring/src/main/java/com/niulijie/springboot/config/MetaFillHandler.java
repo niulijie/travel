@@ -1,4 +1,4 @@
-package com.niulijie.common.config;
+package com.niulijie.springboot.config;
 
 import com.baomidou.mybatisplus.core.handlers.MetaObjectHandler;
 import lombok.extern.slf4j.Slf4j;
