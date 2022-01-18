@@ -32,7 +32,7 @@ public class UserTest implements Serializable {
      * 雪花算法--自动生成主键
      */
     @TableId(value = "user_id", type = IdType.ASSIGN_ID)
-    private Long userid;
+    private Long userId;
 
     private String name;
 

@@ -1,5 +1,12 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 <mapper namespace="com.niulijie.springboot.mapper.UserTestMapper">
-
+    <!--useGeneratedKeys设置为 true 时，表示如果插入的表id以自增列为主键，则允许 JDBC 支持自动生成主键，并可将自动生成的主键id返回。-->
+    <insert id="insertList" parameterType="java.util.List" useGeneratedKeys="true" keyProperty="userId" keyColumn="user_id">
+        insert ignore into user_test (name,age,grade,sex,create_time,update_time)
+        values
+        <foreach collection="reportList" item="list" index="index" separator=",">
+            (#{list.name},#{list.age},#{list.grade},#{list.sex},#{list.createTime},#{list.updateTime})
+        </foreach>
+    </insert>
 </mapper>

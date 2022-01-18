@@ -13,6 +13,26 @@
 
     <artifactId>jdk8</artifactId>
 
+    <properties>
+        <java.version>1.8</java.version>
+        <spring-boot.version>2.2.7.RELEASE</spring-boot.version>
+        <mybatis.plus.version>3.4.0</mybatis.plus.version>
+        <guava.version>22.0</guava.version>
+    </properties>
 
+
+    <dependencies>
+        <!--mybatis plus依赖-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+    </dependencies>
 
 </project>

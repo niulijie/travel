@@ -1,5 +1,6 @@
 package com.niulijie.springboot.controller;
 
+import com.baomidou.mybatisplus.core.toolkit.Wrappers;
 import com.niulijie.common.dto.BaseResp;
 import com.niulijie.common.dto.ResultUtil;
 import com.niulijie.springboot.entity.UserTest;
@@ -12,6 +13,8 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+
+import java.util.List;
 
 
 /**
@@ -31,7 +34,7 @@ public class UserTestController {
      * @param
      */
     @GetMapping("/insert")
-    public BaseResp queryHasTask() {
+    public BaseResp<?> insert() {
         UserTest userTest = new UserTest();
         userTest.setName("张三");
         userTest.setAge(AgeEnum.ONE);
@@ -42,4 +45,21 @@ public class UserTestController {
         return ResultUtil.ok(userTest);
     }
 
+    /**
+     * 批量插入，如果之前已有数据，则根据已有数据id类型进行递增，否则从1开始递增；但是creatTime和updateTime不会自动填充
+     * 若数据库主键字段未设置递增属性，则只会插入一条数据且主键为0
+     * @return
+     */
+    @GetMapping("/batchInsert")
+    public BaseResp<?> batchInsert() {
+        List<UserTest> ids = userTestService.batch();
+        return ResultUtil.ok(ids);
+    }
+
+
+    @GetMapping("/query")
+    public BaseResp<?> query() {
+        List<UserTest> userTestList = userTestMapper.selectList(Wrappers.<UserTest>lambdaQuery());
+        return ResultUtil.ok(userTestList);
+    }
 }
