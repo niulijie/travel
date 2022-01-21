@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.springboot.mapper.DaPrPostMapper">
+
+    <insert id="insertList">
+        insert into da_pr_post (post_code,post_name,post_full_name,loc_num,post_status,
+                                scan_status,post_level,post_circle,code_img,create_time,update_time)
+        values
+        <foreach collection="reportList" item="list" index="index" separator=",">
+            (#{list.postCode},#{list.postName},#{list.postFullName},#{list.locNum},#{list.postStatus},#{list.scanStatus}
+            ,#{list.postLevel},#{list.postCircle},#{list.codeImg},#{list.createTime},#{list.updateTime})
+        </foreach>
+    </insert>
+</mapper>

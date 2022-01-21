@@ -29,3 +29,6 @@ mybatis-plus:
     default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
     # 打印日志
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+file:
+#  path: /home/file/temp/
+  path: D:/项目资料/file/temp/
