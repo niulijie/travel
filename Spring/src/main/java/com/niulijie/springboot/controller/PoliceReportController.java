@@ -44,4 +44,13 @@ public class PoliceReportController {
     public void testDecode() throws Exception {
         policeReportService.testDecode();
     }
+
+    /**
+     * 测试解析base64二维码
+     * @throws Exception
+     */
+    @PostMapping("/test/decode2")
+    public void testDecode2() throws Exception {
+        policeReportService.testDecode3();
+    }
 }

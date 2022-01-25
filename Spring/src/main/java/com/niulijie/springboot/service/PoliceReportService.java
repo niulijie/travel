@@ -3,7 +3,6 @@ package com.niulijie.springboot.service;
 import com.google.zxing.WriterException;
 import com.niulijie.springboot.entity.DaPrPost;
 
-import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.io.UnsupportedEncodingException;
 import java.util.List;
@@ -24,4 +23,6 @@ public interface PoliceReportService {
     void generatePostQPCode() throws IOException, WriterException;
 
     void testDecode() throws Exception;
+
+    void testDecode3() throws UnsupportedEncodingException;
 }
