@@ -40,5 +40,17 @@ public class CreateStream {
 
         //生成
         Stream.generate(() -> Math.random()).forEach(System.out::println);
+
+        /**
+         * 5. contract,两个流合并成一个流
+         */
+        Stream<String> streamA = Stream.of("张无忌","张翠山");
+        Stream<String> streamB = Stream.of("美羊羊","喜羊羊");
+        //写法1
+        Stream.concat(streamA, streamB).forEach(System.out::println);
+        //写法2
+        Stream<String> result=  Stream.concat(streamA, streamB);
+        result.forEach(name-> System.out.println(name));
+
     }
 }

@@ -64,6 +64,14 @@ public class UserTestServiceImpl extends ServiceImpl<UserTestMapper,UserTest> im
         int dateCount = userTestList.size();
         int cycle = (dateCount % count == 0) ? (dateCount / count) : (dateCount / count + 1);
         //分批次处理，循环次数, 跳过数据
+        /**
+         * 数值流 IntStream, DoubleStream, LongStream
+         * 数值流转换为流
+         *  Stream<Integer> stream = intStream.boxed();
+         *  这两个方法的区别在于一个是闭区间，一个是半开半闭区间
+         *  rangeClosed(1, 100) ：[1, 100]
+         *  range(1, 100) ：[1, 100)
+         */
         IntStream.rangeClosed(1, cycle).map(i -> (i - 1) * count).mapToObj(skip -> userTestList.stream().skip(skip)
                 .limit(count).collect(Collectors.toList())).forEach(reportList -> {
             userTestMapper.insertList(reportList);
