@@ -84,13 +84,13 @@ public class UnblockThreadPoolExecutor implements ApplicationListener<ContextClo
                 new CustomThreadFactory(), new CustomRejectedExecutionHandler());
     }
 
-    @Bean("executor")
-    public ThreadPoolExecutor threadPoolUnboundedExecutor() {
-        int processors = Runtime.getRuntime().availableProcessors();
-        return new ThreadPoolExecutor(
-                processors, processors * 20, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(),
-                new CustomThreadFactory(), new CustomRejectedExecutionHandler());
-    }
+//    @Bean("executor")
+//    public ThreadPoolExecutor threadPoolUnboundedExecutor() {
+//        int processors = Runtime.getRuntime().availableProcessors();
+//        return new ThreadPoolExecutor(
+//                processors, processors * 20, 60, TimeUnit.SECONDS, new LinkedBlockingQueue<>(),
+//                new CustomThreadFactory(), new CustomRejectedExecutionHandler());
+//    }
 
     /**
      * 自定义拒绝策略
