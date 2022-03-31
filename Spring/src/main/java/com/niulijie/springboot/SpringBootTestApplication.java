@@ -2,6 +2,10 @@ package com.niulijie.springboot;
 
 //@EnableAutoConfiguration//启用springboot自动配置
 
+import ch.qos.logback.core.db.DBHelper;
+import com.niulijie.springboot.config.BeanConfig;
+import com.niulijie.springboot.entity.Demo;
+import com.niulijie.springboot.entity.UserTest;
 import com.niulijie.springboot.test.MainScanConfig;
 import org.mybatis.spring.annotation.MapperScan;
 import org.springframework.boot.SpringApplication;
@@ -21,22 +25,54 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  */
 //@ComponentScan
 /**
- * 1.@SpringBootApplication这个注解, 它是由几个主要的注解共同组成的复合的注解
+ * 1.@SpringBootApplication(scanBasePackages = "com.niulijie.springboot")这个注解, 它是由下面主要的注解共同组成的复合的注解
  * 2.三个注解起了主导作用
  *   @SpringBootConfiguration 相当于springboot的一个配置类
  *   @EnableAutoConfiguration springboot自动配置，开启spring+mvc的自动化配置
- *   @ComponentScan 配置包扫描，确保可以扫描到启动类父包下的所有类
+ *   @ComponentScan("com.niulijie.springboot") 配置包扫描，确保可以扫描到启动类父包下的所有类
  */
 @SpringBootApplication
 @MapperScan("com.niulijie.*.mapper")
 public class SpringBootTestApplication {
     public static void main(String[] args) {
-        //run方法的返回值ConfigurableApplicationContext继承了ApplicationContext上下文接口
+        //1.返回IOC容器-run方法的返回值ConfigurableApplicationContext继承了ApplicationContext上下文接口
         ConfigurableApplicationContext configurableApplicationContext = SpringApplication.run(SpringBootTestApplication.class, args);
+        //2.查看容器里面得组件
         String[] beanDefinitionNames = configurableApplicationContext.getBeanDefinitionNames();
         for (String beanName: beanDefinitionNames) {
             System.out.println(beanName);
         }
+        //3.从容器中获取组件
+//        Demo testDemo = configurableApplicationContext.getBean("testDemo", Demo.class);
+//        System.out.println("****testDemo:"+testDemo);
+//        UserTest userTest = configurableApplicationContext.getBean("user02", UserTest.class);
+//        //@Configuration(proxyBeanMethods = true)--Demo中的userTest和容器中的UserTest是否相同：true
+//        //@Configuration(proxyBeanMethods = false)--Demo中的userTest和容器中的UserTest是否相同：false
+//        System.out.println("Demo中的userTest和容器中的UserTest是否相同："+ (testDemo.getUser() == userTest));
+//
+//        //4.springBGLB生成的
+//        BeanConfig bean = configurableApplicationContext.getBean(BeanConfig.class);
+//        UserTest user02 = bean.user02();
+//        UserTest user01 = bean.user02();
+//        //true--@Configuration(proxyBeanMethods = true),获取的是代理对象调用方法，SpringBoot总会检查这个组件是否在容器中，保持组件单实例
+//        //false--@Configuration(proxyBeanMethods = false)
+//        System.out.println(user01 == user02);
+//
+//        //5.获取组件
+//        /*
+//            com.niulijie.springboot.entity.UserTest --  @Import({UserTest.class, DBHelper.class})导入
+//            user02 -- @Bean 添加进去的
+//         */
+//        String[] beanNamesForType = configurableApplicationContext.getBeanNamesForType(UserTest.class);
+//        System.out.println("###########################");
+//        for (String s : beanNamesForType) {
+//            System.out.println(s);
+//        }
+//
+//        //ch.qos.logback.core.db.DBHelper@2e4389ed
+//        DBHelper bean1 = configurableApplicationContext.getBean(DBHelper.class);
+//        System.out.println(bean1);
+
         /**
          * org.springframework.context.annotation.internalConfigurationAnnotationProcessor
          * org.springframework.context.annotation.internalAutowiredAnnotationProcessor
@@ -170,5 +206,22 @@ public class SpringBootTestApplication {
          * org.springframework.aop.config.internalAutoProxyCreator
          */
 
+        /*
+            6.测试@ConditionalOnBean(name = "niuda")
+                容器中niuda组件：false
+                容器中testDemo组件：false
+            ------------无注解时-----------------
+                容器中niuda组件：false
+                容器中testDemo组件：true
+         */
+        boolean niuda = configurableApplicationContext.containsBean("niuda");
+        System.out.println("容器中niuda组件："+ niuda);
+
+        boolean testDemo = configurableApplicationContext.containsBean("testDemo");
+        System.out.println("容器中testDemo组件："+testDemo);
+
+        //@ImportResource("classpath:beans.xml") -- 容器中user01组件：true
+        boolean user01 = configurableApplicationContext.containsBean("user01");
+        System.out.println("容器中user01组件："+user01);
     }
 }

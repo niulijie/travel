@@ -32,3 +32,7 @@ mybatis-plus:
 file:
 #  path: /home/file/temp/
   path: D:/项目资料/file/temp/
+
+mycar:
+  brand : YD
+  price : 1000

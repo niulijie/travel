@@ -22,7 +22,7 @@
     </properties>
 
     <dependencies>
-        <!--web 环境依赖-->
+        <!--web启动 环境依赖，只要这个依赖+spring-boot-starter-parent项目就可以起来-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-web</artifactId>

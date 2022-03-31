@@ -23,9 +23,10 @@ import lombok.NoArgsConstructor;
  * 无参构造方法
  */
 @NoArgsConstructor
-
 public class Demo {
 
     private Integer id;
     private String name;
+
+    private UserTest user;
 }

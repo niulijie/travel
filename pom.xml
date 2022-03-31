@@ -92,11 +92,9 @@
         </dependency>
     </dependencies>
 
-    <!-- 编译 -->
+    <!-- 编译 标志项目可以打成一个可执行jar包-->
     <!--<build>
-        &lt;!&ndash; 插件 &ndash;&gt;
         <plugins>
-            &lt;!&ndash; maven插件 &ndash;&gt;
             <plugin>
                 <groupId>org.springframework.boot</groupId>
                 <artifactId>spring-boot-maven-plugin</artifactId>
