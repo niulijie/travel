@@ -1,0 +1,48 @@
+#开启自动配置报告，Negative(不生效) Positive(生效)
+#debug: true
+#单双引号区别：''--> 不会对串中转义字符进行转义, "" --> 会对串中转义字符进行转义;  单引号会将\n作为字符串输出，双引号会将\n作为换行输出
+person:
+  userName: lisi
+  boss: true
+  birth: 2019/12/9
+  age: 18
+  interests: [篮球, 足球]
+  bodies:
+    - 眼
+    - 耳
+    - 鼻
+  animals: [阿猫, 阿狗]
+  #$占位符，作用：指定默认值、获取值、生成随机数等
+  relations:
+    - 爷爷+${random.value}
+    - 姥爷+${random.int}
+    - 大爷+${random.int[1,100]}
+    - 舅舅+${random.int(10)}
+    - 姑父+${random.long}
+    - 叔叔+${person.userName}
+  scores:
+    english: 80
+    math: 90
+  # 行内写法
+  numbers: {phone:11, idCard:22}
+  salaries:
+    - 99.23
+    - 77.56
+  foods: [早饭, 中饭]
+  demo:
+    name: pig
+    id: 10
+    user:
+      userId: 1
+      name: meichaofeng
+  allDemos:
+    sick:
+      - {name: dog, id: 11}
+      - name : cat
+        id: 12
+      - name: fish
+        id: 13
+    health: [{name: frog, id: 14}]
+# 使用命令行参数的形式，在启动项目的时候来指定配置文件的新位置
+# java -jar spring-boot.jar --spring.config.location=/home/gmd/application.yml
+# java -jar spring-boot.jar --server.port=8888 --server.context-path=/abc

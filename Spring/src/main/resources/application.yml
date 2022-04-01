@@ -18,6 +18,9 @@ spring:
     multipart:
       max-file-size: 100MB
       max-request-size: 100MB
+  profiles:
+    #active: @profileActive@
+    active: dev
 mybatis-plus:
   # 枚举类使用配置 支持统配符 * 或者 ; 分割
   type-enums-package: com.niulijie.springboot.enums
@@ -37,5 +40,3 @@ mycar:
   brand : YD
   price : 1000
 
-#开启自动配置报告，Negative(不生效) Positive(生效)
-#debug: true

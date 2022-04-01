@@ -1,6 +1,7 @@
 package com.niulijie.springboot.controller;
 
 import com.niulijie.springboot.entity.Car;
+import com.niulijie.springboot.entity.Person;
 import com.niulijie.springboot.util.SpringContextUtils;
 import com.niulijie.springboot.util.SpringContextUtils2;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -18,6 +19,9 @@ public class TestApplicationController {
     @Autowired
     Car car;
 
+    @Autowired
+    Person person;
+
     @RequestMapping("/test1")
     public Object testSpringUtil1() {
         return SpringContextUtils.getBean("testDemo");
@@ -31,5 +35,10 @@ public class TestApplicationController {
     @RequestMapping("/car")
     public Car car(){
         return car;
+    }
+
+    @RequestMapping("/person")
+    public Person person(){
+        return person;
     }
 }

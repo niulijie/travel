@@ -31,7 +31,7 @@
     <!-- 版本 -->
     <version>1.0-SNAPSHOT</version>
 
-    <name>springboot</name><!-- 项目的名称， Maven 产生的文档用 -->
+    <name>niulijie-travel</name><!-- 项目的名称， Maven 产生的文档用 -->
     <description>Demo project for Spring Boot</description><!-- 项目的描述, Maven 产生的文档用 -->
 
     <modules>

@@ -33,6 +33,12 @@
             <artifactId>spring-boot-autoconfigure</artifactId>
         </dependency>
 
+        <!--使得自定义组件person在yml中可以有属性提示-->
+        <!--<dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-autoconfigure-processor</artifactId>
+        </dependency>-->
+
         <!--excel文件操作依赖-->
         <dependency>
             <groupId>com.alibaba</groupId>
