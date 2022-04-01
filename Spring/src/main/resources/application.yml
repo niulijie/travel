@@ -36,3 +36,6 @@ file:
 mycar:
   brand : YD
   price : 1000
+
+#开启自动配置报告，Negative(不生效) Positive(生效)
+#debug: true
