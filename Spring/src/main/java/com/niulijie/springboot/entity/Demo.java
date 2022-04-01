@@ -1,9 +1,6 @@
 package com.niulijie.springboot.entity;
 
-import lombok.AllArgsConstructor;
-import lombok.Builder;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 /**
  * @author edz
@@ -23,6 +20,8 @@ import lombok.NoArgsConstructor;
  * 无参构造方法
  */
 @NoArgsConstructor
+@ToString
+@EqualsAndHashCode
 public class Demo {
 
     private Integer id;
