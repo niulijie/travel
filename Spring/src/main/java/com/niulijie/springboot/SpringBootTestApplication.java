@@ -1,7 +1,5 @@
 package com.niulijie.springboot;
 
-//@EnableAutoConfiguration//启用springboot自动配置
-
 import ch.qos.logback.core.db.DBHelper;
 import com.niulijie.springboot.config.BeanConfig;
 import com.niulijie.springboot.entity.Demo;
@@ -16,21 +14,48 @@ import org.springframework.context.annotation.ComponentScan;
 import org.springframework.scheduling.annotation.EnableScheduling;
 
 /**
- * 1.定义扫描的路径从中找出标识了需要装配的类自动装配到spring的bean容器中,类似于<context:component-scan base-package="">
- *     @ComponentScan注解默认就会装配标识了@Controller，@Service，@Repository，@Component注解的类到spring容器中
- *    @Controller，@Service，@Repository注解，有一个共同的注解@Component
- * 2.通过includeFilters加入扫描路径下没有以上注解的类加入spring容器
- * 3.通过excludeFilters过滤出不用加入spring容器的类
- * 4.自定义增加了@Component注解的注解方式
- */
-//@ComponentScan
-/**
+ * ---------------------------@SpringBootApplication---------------------------------------------------------------------------------
  * 1.@SpringBootApplication(scanBasePackages = "com.niulijie.springboot")这个注解, 它是由下面主要的注解共同组成的复合的注解
- * 2.三个注解起了主导作用
- *   @SpringBootConfiguration 相当于springboot的一个配置类
- *   @EnableAutoConfiguration springboot自动配置，开启spring+mvc的自动化配置
- *   @ComponentScan("com.niulijie.springboot") 配置包扫描，确保可以扫描到启动类父包下的所有类
- */
+ * 2.相当于 （三个注解起了主导作用）
+ *   @SpringBootConfiguration 代表是springboot的一个配置类
+ *   @EnableAutoConfiguration 启用springboot自动配置，开启spring+mvc的自动化配置
+ *   @ComponentScan("com.niulijie.springboot") 指定包扫描，确保可以扫描到启动类父包下的所有类
+ *
+ * ---------------------------@EnableAutoConfiguration---------------------------------------------------------------------------------
+ * 1.@AutoConfigurationPackage 自动配置包-指定默认包规则
+ *   里面是@Import(AutoConfigurationPackages.Registrar.class)，给容器中导入Registrar组件，利用Registrar给容器中导入一系列组件
+ *   AnnotationMetadata:注解源信息(指注解标在了哪里introspectedClass->SpringBootTestApplication，属性值是什么)，注解是指AutoConfigurationPackages
+ *   new PackageImport(metadata).getPackageName()-> com.niulijie.springboot:把这个包下的所有组件注册进容器中
+ *
+ * 2.@Import(AutoConfigurationImportSelector.class)
+ *   利用getAutoConfigurationEntry(annotationMetadata);给容器中批量导入一些组件
+ *   List<String> configurations = getCandidateConfigurations(annotationMetadata, attributes);获取到需要导入容器中必须的127个自动配置类
+ *   List<String> configurations = SpringFactoriesLoader.loadFactoryNames(getSpringFactoriesLoaderFactoryClass(),getBeanClassLoader());
+ *     --> Map<String, List<String>> loadSpringFactories(@Nullable ClassLoader classLoader)利用工厂的名字加载容器
+ *      -->从META-INF/spring.factories位置来加载一个文件，默认扫描当前系统里面所有META-INF/spring.factories位置的文件
+ *      (D:\repository\org\springframework\boot\spring-boot-autoconfigure\2.2.7.RELEASE\spring-boot-autoconfigure-2.2.7.RELEASE.jar!\META-INF\spring.factories)
+ *      文件中写死了springboot一启动需要在容器中加载的所有配置类
+ * 3.虽然127个自动配置类会默认加载，但是会按照条件装配规则(@Conditional)，按需配置
+ *
+ * ----------------------------@ComponentScan-------------------------------------------------------------------------------------------
+ *  1.定义扫描的路径从中找出标识了需要装配的类自动装配到spring的bean容器中,类似于<context:component-scan base-package="">
+ *   @ComponentScan注解默认就会装配标识了@Controller，@Service，@Repository，@Component注解的类到spring容器中
+ *      @Controller，@Service，@Repository注解，有一个共同的注解@Component
+ *  2.通过includeFilters加入扫描路径下没有以上注解的类加入spring容器
+ *  3.通过excludeFilters过滤出不用加入spring容器的类
+ *  4.自定义增加了@Component注解的注解方式
+ *
+ *  ----------------------------总结-------------------------------------------------------------------------------------------
+ *  1.SpringBoot先加载所有的自动配置类   xxxxAutoConfiguration
+ *  2.每个自动配置类按照条件进行生效，默认都会绑定配置文件指定的值  xxxxProperties里面拿值，xxxxProperties和配置文件进行绑定
+ *  3.生效的配置类会给容器中装配很多组件
+ *  4.只要容器中有这些组件，相当于这些功能就有了
+ *  5.定制化配置
+ *      用户直接自己用@Bean替换底层的组件
+ *      用户去看这个组件是获取的配置文件值进行修改
+ *  xxxxAutoConfiguration --> 组件 --> xxxxProperties里面拿值 --> application.properties
+ *
+  */
 @SpringBootApplication
 @MapperScan("com.niulijie.*.mapper")
 public class SpringBootTestApplication {

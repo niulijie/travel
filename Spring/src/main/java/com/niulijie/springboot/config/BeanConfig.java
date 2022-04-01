@@ -31,7 +31,7 @@ import org.springframework.context.annotation.ImportResource;
 @ConditionalOnMissingBean(name = "niuda")
 @Import({UserTest.class, DBHelper.class})
 @Configuration(proxyBeanMethods = true)//告诉SpringBoot这是一个配置类  == 配置文件(beans.xml)
-//@ImportResource("classpath:beans.xml")
+//@ImportResource("classpath:beans.xml") //用于导入Spring的XML配置文件，让该配置文件中定义的bean对象加载到Spring容器中。
 //@EnableConfigurationProperties(Car.class)//开启car的配置绑定功能，并且把car组件自动注册进容器中
 public class BeanConfig {
 
