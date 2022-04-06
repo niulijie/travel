@@ -54,7 +54,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
  *      用户直接自己用@Bean替换底层的组件
  *      用户去看这个组件是获取的配置文件值进行修改
  *  xxxxAutoConfiguration --> 组件 --> xxxxProperties里面拿值 --> application.properties
- *
+ * ----------------------------扩展-------------------------------------------------------------------------------------------
+ * 配置类只有一个有参构造器，有参构造器所有参数的值都会从容器中确定
   */
 @SpringBootApplication
 @MapperScan("com.niulijie.*.mapper")

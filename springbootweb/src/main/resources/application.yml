@@ -1,0 +1,22 @@
+server:
+  port: 9001
+spring:
+#  mvc:
+#    # 修改静态资源访问路径，默认的静态资源访问路径/**
+#    # 当前项目 + static-path-pattern + 静态资源名 = 静态资源文件夹下找
+#    # 这个会导致welcome page功能失效，导致 Favicon 功能失效
+#    static-path-pattern: /res/**
+  resources:
+    #classpath:/ --> 资源文件的根路径下; classpath:/config/ --> 资源文件根路径的config目录下; file:./ --> 项目的根路径下; file:./config/ --> 项目根路径的config目录下
+    # 修改静态资源路径 只能访问haha目录下文件，http://127.0.0.1:9001/res/bb.jpg
+    #static-locations: [classpath:/haha/]
+    #可以禁用所有静态资源规则 org.springframework.boot.autoconfigure.web.servlet.WebMvcAutoConfiguration.WebMvcAutoConfigurationAdapter.addResourceHandlers
+    #add-mappings: false
+    cache:
+      #缓存时效
+      period: 11000
+  #开启页面表单的Rest功能
+  mvc:
+    hiddenmethod:
+      filter:
+        enabled: true
