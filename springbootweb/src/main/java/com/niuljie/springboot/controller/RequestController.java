@@ -30,6 +30,7 @@ public class RequestController {
     }
 
     /**
+     * 复杂参数：Map、Model（map、model里面的数据会被放在request的请求域  request.setAttribute）、Errors/BindingResult、RedirectAttributes（ 重定向携带数据）、ServletResponse（response）、SessionStatus、UriComponentsBuilder、ServletUriComponentsBuilder
      * Map、Model类型的参数，会返回 mavContainer.getModel() -- ModelAndViewContainer#getModel() --> BindingAwareModelMap 是Model 也是Map
      * @param map
      * @param model

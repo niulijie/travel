@@ -1,5 +1,6 @@
 package com.niuljie.springboot.controller;
 
+import com.niuljie.springboot.dto.Person;
 import org.springframework.web.bind.annotation.*;
 
 import javax.servlet.http.Cookie;
@@ -107,6 +108,24 @@ public class ParameterTestController {
         map.put("bossAge",bossAge);
         map.put("empAge",empAge);
         return map;
+
+    }
+
+    /**
+     * 如果通过页面表单发送，不加@RequestBody注解，解析器为ServletModelAttributeMethodProcessor；
+     * 1.先创建一个空attribute对象
+     * 2.WebDataBinder binder = binderFactory.createBinder(webRequest, attribute, name);
+     *   WebDataBinder :web数据绑定器，将请求参数的值绑定到指定的JavaBean里面
+     *   WebDataBinder利用自身conversionService转换服务中的converter转换器(124个)，将请求数据转成指定的数据类型。再次封装到JavaBean中
+     * --------------------------------------------------------------------------------------
+     * 加了@RequestBody注解，解析器为RequestResponseBodyMethodProcessor
+     * @param person
+     * @return
+     */
+    @PostMapping("/save/person")
+    public Person savePerson(@RequestBody Person person){
+
+        return person;
 
     }
 }
