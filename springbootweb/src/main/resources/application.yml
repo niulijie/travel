@@ -20,3 +20,8 @@ spring:
     hiddenmethod:
       filter:
         enabled: true
+    #开启请求参数内容协商模式 parameter策略优先确定是要返回json数据（获取请求头中的format的值）
+    # http://127.0.0.1:9001/test/person?format=json
+    # http://127.0.0.1:9001/test/person?format=xml
+    contentnegotiation:
+      favor-parameter: true
