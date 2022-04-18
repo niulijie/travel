@@ -44,7 +44,7 @@ public class ResponseTestController {
         Person person = new Person();
         person.setAge(18);
         person.setBirth(new Date());
-        person.setUserName("zhangsan");
+        person.setUserName("牛大");
         return person;
     }
 }

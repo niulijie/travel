@@ -59,6 +59,7 @@ public class GuiguMessageConverter implements HttpMessageConverter<Person> {
         String data = person.getUserName() + ";" + person.getAge() + ";" + person.getBirth();
         //写出去
         OutputStream body = outputMessage.getBody();
-        body.write(data.getBytes());
+        //浏览器的编码是GBK
+        body.write(data.getBytes("GBK"));
     }
 }
