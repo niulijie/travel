@@ -28,9 +28,16 @@
             <artifactId>lombok</artifactId>
         </dependency>
 
+        <!--返回值可以封装成xml-->
         <dependency>
             <groupId>com.fasterxml.jackson.dataformat</groupId>
             <artifactId>jackson-dataformat-xml</artifactId>
+        </dependency>
+
+        <!--引入thymeleaf-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
     </dependencies>
 </project>
