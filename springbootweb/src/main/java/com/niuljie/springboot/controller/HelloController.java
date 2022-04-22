@@ -16,7 +16,7 @@ public class HelloController {
      * 3.请求 --> doGet/doPost (org.springframework.web.servlet.FrameworkServlet#doGet)
      *          --> processRequest (org.springframework.web.servlet.FrameworkServlet#processRequest)
      *              --> doService (org.springframework.web.servlet.DispatcherServlet#doService)
-     *                  --> doDispatch (org.springframework.web.servlet.DispatcherServlet#doDispatch)
+     *                  --> doDispatch (org.springframework.web.servlet.DispatcherServlet#doDispatch) -- 开始的地方
      *                      #--> getHandler (org.springframework.web.servlet.DispatcherServlet#getHandler) 找到当前请求使用哪个Handler(Controller的方法)处理
      *                          --> RequestMappingHandlerMapping：保存了所有@RequestMapping 和handler的映射规则。(5种)
      *                              --> RequestMappingHandlerAdapter 处理器适配器(4种)

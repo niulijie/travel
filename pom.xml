@@ -41,6 +41,7 @@
         <module>X509v3Certificate</module>
         <module>Collections</module>
         <module>springbootweb</module>
+        <module>admin</module>
     </modules>
 
     <!-- 属性设置 -->
