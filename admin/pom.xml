@@ -39,12 +39,14 @@
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
         </dependency>
 
+        <!--druid自身替代jdbc的HikariCP数据源-->
         <!--<dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid</artifactId>
             <version>1.2.1</version>
         </dependency>-->
 
+        <!--druid与springboot整合-->
         <dependency>
             <groupId>com.alibaba</groupId>
             <artifactId>druid-spring-boot-starter</artifactId>
