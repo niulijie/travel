@@ -25,7 +25,7 @@ import org.springframework.web.servlet.config.annotation.WebMvcConfigurer;
  *   ○ 5、@EnableWebMvc  导致了 WebMvcAutoConfiguration  没有生效。
  */
 @Configuration
-@EnableWebMvc
+//@EnableWebMvc
 public class AdminWebConfig implements WebMvcConfigurer {
 
     @Override
@@ -34,19 +34,17 @@ public class AdminWebConfig implements WebMvcConfigurer {
                 //拦截请求  /**-- 默认拦截所有请求，包括静态资源
                 .addPathPatterns("/**")
                 //放行哪些请求
-                .excludePathPatterns("/","/login","/css/**","/fonts/**","/images/**","/js/**", "/aa/**");
+                .excludePathPatterns("/","/login","/css/**","/fonts/**","/images/**","/js/**", "/aa/**", "/test/**");
     }
 
     /**
      * 定义静态资源行为
      * @param registry
      */
-    @Override
+    /*@Override
     public void addResourceHandlers(ResourceHandlerRegistry registry) {
-        /**
-         * 访问 /aa/** 所有请求都去 classpath:/static/ 下面进行匹配
-         */
+        // 访问 /aa/** 所有请求都去 classpath:/static/ 下面进行匹配
         registry.addResourceHandler("/aa/**")
                 .addResourceLocations("classpath:/static/**");
-    }
+    }*/
 }

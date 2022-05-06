@@ -6,3 +6,37 @@ spring:
     multipart:
       max-file-size: 10MB
       max-request-size: 100MB
+  datasource:
+    url: jdbc:mysql://172.16.20.189:3306/mdm?serverTimezone=Asia/Shanghai&allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false
+    username: dxyt
+    password: dxyt@2020=-
+    driver-class-name: com.mysql.jdbc.Driver
+    #filters: stat, wall
+    #max-active: 12
+    druid:
+      # 监控springBean -这个包下的所有东西都监控
+      aop-patterns: com.atguigu.admin.*
+      # 开启几个功能组件--> 监控stat--sql监控 和 wall--防火墙
+      filters: stat, wall
+      # 对某个功能组件进行详细配置
+      filter:
+        stat:
+          enabled: true
+          slow-sql-millis: 1000
+          log-slow-sql: true
+        wall:
+          enabled: true
+          config:
+            update-allow: false
+      # 配置监控页功能
+      stat-view-servlet:
+        enabled: true
+        login-username: admin
+        login-password: admin
+        reset-enable: false
+      # 监控web
+      web-stat-filter:
+        enabled: true
+        url-pattern: '/*'
+        exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
+
