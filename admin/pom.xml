@@ -15,6 +15,7 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <druid-spring-boot-starter.version>1.1.21</druid-spring-boot-starter.version>
+        <mybatis.plus.version>3.4.0</mybatis.plus.version>
     </properties>
     <dependencies>
         <!--web启动 环境依赖，只要这个依赖+spring-boot-starter-parent项目就可以起来-->
@@ -34,10 +35,11 @@
             <artifactId>spring-boot-starter-thymeleaf</artifactId>
         </dependency>
 
-        <dependency>
+        <!--mybatis-plus里面引入了jdbc，故可以去除-->
+        <!--<dependency>
             <groupId>org.springframework.boot</groupId>
             <artifactId>spring-boot-starter-data-jdbc</artifactId>
-        </dependency>
+        </dependency>-->
 
         <!--druid自身替代jdbc的HikariCP数据源-->
         <!--<dependency>
@@ -59,11 +61,18 @@
             <version>5.1.49</version>
         </dependency>
 
-        <!--添加mybatis依赖-->
-        <dependency>
+        <!--添加mybatis依赖，mybatis-plus里面引入了jdbc，故可以去除-->
+        <!--<dependency>
             <groupId>org.mybatis.spring.boot</groupId>
             <artifactId>mybatis-spring-boot-starter</artifactId>
             <version>2.1.4</version>
+        </dependency>-->
+
+        <!--mybatis-plus-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
         </dependency>
 
         <dependency>

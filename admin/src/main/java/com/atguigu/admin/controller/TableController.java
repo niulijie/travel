@@ -1,17 +1,26 @@
 package com.atguigu.admin.controller;
 
+import com.atguigu.admin.bean.DaPrLocation;
 import com.atguigu.admin.bean.User;
 import com.atguigu.admin.exception.UserTooManyException;
+import com.atguigu.admin.service.DaPrLocationService;
+import com.baomidou.mybatisplus.extension.plugins.pagination.Page;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
+import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestParam;
+import org.springframework.web.servlet.mvc.support.RedirectAttributes;
 
 import java.util.Arrays;
 import java.util.List;
 
 @Controller
 public class TableController {
+
+    @Autowired
+    DaPrLocationService daPrLocationService;
 
     /**
      * 1、 ErrorMvcAutoConfiguration  自动配置异常处理规则
@@ -66,16 +75,25 @@ public class TableController {
     }
 
     @GetMapping("/dynamic_table")
-    public String dynamic_table(Model model){
+    public String dynamic_table(@RequestParam(value = "pn", defaultValue = "1")Integer pn, Model model){
         //表格内容的遍历
-        List<User> users = Arrays.asList(new User("zhangsan", "123456"),
+        /*List<User> users = Arrays.asList(new User("zhangsan", "123456"),
                 new User("lisi", "123444"),
                 new User("haha", "aaaaa"),
                 new User("hehe ", "aaddd"));
         model.addAttribute("users",users);
         if (users.size()>3) {
             throw new UserTooManyException();
-        }
+        }*/
+        List<DaPrLocation> list = daPrLocationService.list();
+        //model.addAttribute("users", list);
+
+        //分页查询, 构造分页参数
+        Page<DaPrLocation> page = new Page<>(pn, 10);
+        //调用page进行分页
+        Page<DaPrLocation> daPrLocationPage = daPrLocationService.page(page, null);
+
+        model.addAttribute("page", daPrLocationPage);
         return "table/dynamic_table";
     }
 
@@ -89,4 +107,11 @@ public class TableController {
         return "table/editable_table";
     }
 
+    @GetMapping("/daPrLocation/delete/{locId}")
+    public String deleteDaPrLocation(@PathVariable("locId") Integer locId, @RequestParam(value = "pn", defaultValue = "1")Integer pn,
+                                     RedirectAttributes redirectAttributes){
+        //daPrLocationService.removeById(locId);
+        redirectAttributes.addAttribute("pn", pn);
+        return "redirect:/dynamic_table";
+    }
 }
