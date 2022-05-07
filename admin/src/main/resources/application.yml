@@ -7,7 +7,7 @@ spring:
       max-file-size: 10MB
       max-request-size: 100MB
   datasource:
-    url: jdbc:mysql://172.16.20.189:3306/mdm?serverTimezone=Asia/Shanghai&allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://172.16.20.122:3306/test?autoReconnect=true&initialTimeout=3&useUnicode=true&characterEncoding=utf8&useSSL=false&serverTimezone=Asia/Shanghai
     username: dxyt
     password: dxyt@2020=-
     driver-class-name: com.mysql.jdbc.Driver
@@ -39,4 +39,12 @@ spring:
         enabled: true
         url-pattern: '/*'
         exclusions: '*.js,*.gif,*.jpg,*.png,*.css,*.ico,/druid/*'
-
+mybatis:
+  #全局配置文件位置
+  #config-location: classpath:mybatis/mybatis-config.xml
+  #sql映射文件位置
+  mapper-locations: classpath:mybatis/mapper/*.xml
+  #开启这个，需要关闭上面的全局配置文件位置，可以不写全局；配置文件，所有全局配置文件的配置都放在configuration配置项中即可
+  configuration:
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

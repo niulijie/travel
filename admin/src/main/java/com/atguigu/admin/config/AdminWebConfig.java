@@ -34,7 +34,7 @@ public class AdminWebConfig implements WebMvcConfigurer {
                 //拦截请求  /**-- 默认拦截所有请求，包括静态资源
                 .addPathPatterns("/**")
                 //放行哪些请求
-                .excludePathPatterns("/","/login","/css/**","/fonts/**","/images/**","/js/**", "/aa/**", "/test/**");
+                .excludePathPatterns("/","/login","/css/**","/fonts/**","/images/**","/js/**", "/aa/**", "/test/**","/insert");
     }
 
     /**
