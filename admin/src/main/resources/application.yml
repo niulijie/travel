@@ -1,4 +1,13 @@
 spring:
+  boot:
+    admin:
+      client:
+        url: http://localhost:8888
+        instance:
+            prefer-ip: true
+  application:
+    name: travel-admin
+
   redis:
     host: 172.16.20.189
     port: 6379
@@ -63,3 +72,33 @@ mybatis:
   configuration:
     map-underscore-to-camel-case: true
     log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+mybatis-plus:
+  configuration:
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+# 所有actuator的配置
+management:
+  # 配置所有端点行为
+  endpoints:
+    # 默认true 开启所有监控端点
+    enabled-by-default: true
+    # 以web方式暴露所有端点
+    web:
+      exposure:
+        include: '*'
+  # 配置某个端点具体行为
+  endpoint:
+    health:
+      show-details: always
+      enabled: true
+    info:
+      enabled: true
+    beans:
+      enabled: true
+    metrics:
+      enabled: true
+info:
+  appName: boot-admin
+  appVersion: 2.0
+  mavenProjectName: @project.artifactId@ #使用@@可以获取maven的pom文件值
+  mavenProjectVersion: @project.version@
+
