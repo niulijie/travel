@@ -25,3 +25,13 @@ spring:
     # http://127.0.0.1:9001/test/person?format=xml
     contentnegotiation:
       favor-parameter: true
+  profiles:
+    active: dev
+#    active: myprod
+    # 更新版本有group功能
+#    group:
+#      mytest:
+#        - dev
+#        - sec
+#      myprod:
+#        - dev

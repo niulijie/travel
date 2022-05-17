@@ -1,0 +1,4 @@
+human:
+  name: 张三
+server:
+  port: 8000

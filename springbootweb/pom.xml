@@ -17,6 +17,12 @@
     </properties>
 
     <dependencies>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-dependencies</artifactId>
+            <version>2.6.1</version>
+        </dependency>
         <!--web启动 环境依赖，只要这个依赖+spring-boot-starter-parent项目就可以起来-->
         <dependency>
             <groupId>org.springframework.boot</groupId>
