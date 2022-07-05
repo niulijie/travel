@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.springboot.mapper.UcDeptMapper">
+    <resultMap id="BaseResultMap" type="com.niulijie.springboot.entity.UcDept">
+        <!--@mbg.generated-->
+        <!--@Table uc_dept-->
+        <id column="dept_id" jdbcType="INTEGER" property="deptId"/>
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName"/>
+        <result column="parent_id" jdbcType="INTEGER" property="parentId"/>
+        <result column="dept_level" jdbcType="VARCHAR" property="deptLevel"/>
+        <result column="dept_path" jdbcType="VARCHAR" property="deptPath"/>
+        <result column="dept_order" jdbcType="INTEGER" property="deptOrder"/>
+        <result column="status" jdbcType="INTEGER" property="status"/>
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId"/>
+        <result column="create_time" jdbcType="TIMESTAMP" property="createTime"/>
+        <result column="update_time" jdbcType="TIMESTAMP" property="updateTime"/>
+    </resultMap>
+</mapper>
