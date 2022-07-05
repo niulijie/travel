@@ -9,7 +9,7 @@ import org.springframework.web.bind.annotation.RestController;
 @RestController
 public class HelloHumanController {
 
-    @Autowired
+   /* @Autowired
     private Human human;
 
     @GetMapping("/hello")
@@ -21,5 +21,5 @@ public class HelloHumanController {
     @ResponseBody
     public Human getHuman(){
         return human;
-    }
+    }*/
 }

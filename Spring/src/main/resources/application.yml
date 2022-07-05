@@ -2,7 +2,8 @@ spring:
   # [运维配置] -> [数据库配置]
   datasource:
     driver-class-name: com.mysql.cj.jdbc.Driver
-    url: jdbc:mysql://172.16.20.122:3306/test?serverTimezone=Asia/Shanghai&allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false
+#    url: jdbc:mysql://172.16.20.122:3306/test?serverTimezone=Asia/Shanghai&allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false
+    url: jdbc:mysql://172.16.20.189:3306/mdm?serverTimezone=Asia/Shanghai&allowMultiQueries=true&useUnicode=true&characterEncoding=utf-8&rewriteBatchedStatements=true&useSSL=false
     username: dxyt
     password: dxyt@2020=-
   hikari:
@@ -19,8 +20,8 @@ spring:
       max-file-size: 100MB
       max-request-size: 100MB
   profiles:
-    #active: @profileActive@
-    active: dev
+    active: @profileActive@
+
 mybatis-plus:
   # 枚举类使用配置 支持统配符 * 或者 ; 分割
   type-enums-package: com.niulijie.springboot.enums
