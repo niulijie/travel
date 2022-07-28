@@ -1,0 +1,75 @@
+spring:
+  #数据库以及数据源配置
+  application:
+    name: dev    #指定应用的名称建议使用小写
+  main:
+    allow-bean-definition-overriding: true
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.17.238:3306/ymv?autoReconnect=true&serverTimezone=Asia/Shanghai&useUnicode=true&characterEncoding=utf8&useSSL=false
+    username: root
+    password: dxyt2021=-
+    hikari:
+      auto-commit: true
+      connection-test-query: SELECT 1
+      connection-timeout: 90000
+      idle-timeout: 600000
+      max-lifetime: 1800000
+      maximum-pool-size: 15
+      minimum-idle: 10
+  rabbitmq:
+    host: 172.16.17.238
+    port: 5672
+    username: dxyt
+    password: dxyt@2020=-
+    virtual-host: /
+    publisher-returns: true
+    listener:
+      simple:
+        acknowledge-mode: manual
+    binding:
+      queue:
+        user: ucenter.sync.queue.user.travel
+        dept: ucenter.sync.queue.dept.travel
+      key:
+        user: ucenter.sync.key.user.183.#
+        dept: ucenter.sync.key.dept.183.#
+      exchange:
+        sync:
+          name: ucenter.sync.exchange.v2
+          type: topic
+  redis:
+    host: 172.16.17.238
+    port: 6379
+    password:
+    timeout: 10000ms
+    database: 1
+    lettuce:
+      pool:
+        max-active: 8
+        max-idle: 8
+        min-idle: 0
+
+# minio配置
+minio:
+  endpoint: http://172.16.17.238:9000/ #Minio服务所在地址
+  bucketName: ymv #存储桶名称
+  accessKey: minio #访问的key
+  secretKey: dxyt123=- #访问的秘钥
+# 青牛云配置信息
+
+springfox:
+  documentation:
+    enabled: true
+
+top:
+  deptId: 53000
+
+auth:
+  url: http://172.16.20.154:10081/api/user
+  tokenUri: /user/token/info
+  authUri: /show/list
+  md5key: 6w4Xn52v5eLSM2Fz
+
+
+

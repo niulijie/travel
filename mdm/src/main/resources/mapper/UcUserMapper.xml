@@ -1,0 +1,173 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.mdm.mapper.UcUserMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.niulijie.mdm.entity.UcUser">
+        <id column="user_id" property="userId" />
+        <result column="name" property="name" />
+        <result column="nick_name" property="nickName" />
+        <result column="avatar" property="avatar" />
+        <result column="autograph" property="autograph" />
+        <result column="sex" property="sex" />
+        <result column="telephone" property="telephone" />
+        <result column="id_card" property="idCard" />
+        <result column="user_no" property="userNo" />
+        <result column="title" property="title" />
+        <result column="like_count" property="likeCount" />
+        <result column="collect_count" property="collectCount" />
+        <result column="video_count" property="videoCount" />
+        <result column="audit_auth" property="auditAuth" />
+        <result column="limit_type" property="limitType" />
+        <result column="limit_time" property="limitTime" />
+        <result column="status" property="status" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <update id="updateCollectCountById">
+        update uc_user set collect_count = collect_count + #{value} where user_id = #{userId}
+    </update>
+
+    <select id="selectUserIds" resultType="java.lang.Integer" parameterType="java.lang.String">
+        select user_id from uc_user where name like concat('%',#{searchKey},'%')
+    </select>
+
+    <!-- 点赞数统计 +1 操作 -->
+    <update id="likeCountIncrease"  >
+        update
+            uc_user
+        set
+            like_count = uc_user.like_count + 1
+        where
+            user_id = #{publisher}
+    </update>
+
+    <!-- 点赞数统计 -1 操作 -->
+    <update id="likeCountReduce" >
+        update
+            uc_user
+        set
+            like_count = uc_user.like_count - 1
+        where
+            user_id = #{publisher}
+    </update>
+
+    <!--作品数统计操作-->
+    <update id="videoCountIncrease">
+        <!--  遍历Map，index指向map的key，item指向map的value -->
+        <foreach item="value" collection="publisherList.entrySet()" index="publisher" separator=";">
+            update uc_user
+            <!-- 这里要注意#和$的区别，mybatis会将#{}转义，${}会取值的字符串 #{key} #{value} -->
+            set video_count = video_count + ${value}
+            where user_id = #{publisher}
+        </foreach>
+    </update>
+
+    <!--作品数统计操作-->
+    <update id="videoCountReduce">
+        <foreach item="value" collection="publisherList.entrySet()" index="publisher" separator=";">
+            update uc_user
+            set video_count = video_count - ${value}
+            where user_id = #{publisher}
+        </foreach>
+    </update>
+
+    <!--查询用户详细信息-->
+    <select id="getUserDetailById" resultType="com.niulijie.mdm.dto.response.UserDetailResp">
+        SELECT us.user_id, us.`name`, us.avatar, ud.dept_id, SUBSTRING_INDEX(SUBSTRING_INDEX(ud.dept_path,'>',3),'>',-2) dept_path
+        from uc_user us
+        LEFT JOIN uc_user_dept usd ON us.user_id = usd.user_id
+        LEFT JOIN uc_dept ud ON usd.dept_id = ud.dept_id
+        <where>
+            <if test="publisherList != null ">
+                us.user_id IN
+                <foreach collection="publisherList" item="publisher" index="index" separator="," open="(" close=")" >
+                    #{publisher}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <!--用户黑名单-查询-->
+    <select id="selectPageList" resultType="com.niulijie.mdm.dto.response.BlacklistDetailResp">
+        SELECT user_id, `name`,  id_card, telephone, limit_type, limit_time
+        from uc_user
+        <where>
+            `status` = 0 AND limit_type != 0
+            <if test="searchKey != null and searchKey != ''">
+                AND CONCAT(IFNULL(`name`,''),'@',IFNULL(id_card,'')) like CONCAT('%',#{searchKey},'%')
+            </if>
+        </where>
+        ORDER BY limit_time ASC,update_time DESC
+    </select>
+
+    <select id="selectInfoList" resultType="java.lang.Integer" parameterType="java.lang.String">
+        SELECT user_id
+        from uc_user
+        <where>
+            `status` = 0 AND limit_type = 0
+            <if test="searchKey != null and searchKey != ''">
+                AND CONCAT(IFNULL(`name`,''),'@',IFNULL(id_card,'')) like CONCAT('%',#{searchKey},'%')
+            </if>
+        </where>
+    </select>
+
+    <select id="getUserDetailByIds" resultType="com.niulijie.mdm.dto.response.UserDetailResp">
+        SELECT user_id, `name`
+        from uc_user
+        where user_id IN
+        <foreach collection="publisherList" item="publisher" index="index" separator="," open="(" close=")" >
+            #{publisher}
+        </foreach>
+    </select>
+
+    <select id="getUserById" resultType="java.lang.String" parameterType="java.lang.Integer">
+        SELECT SUBSTRING_INDEX(SUBSTRING_INDEX(ud.dept_path,'>',3),'>',-2) deptPath
+        from uc_user_dept usd
+        LEFT JOIN uc_dept ud ON usd.dept_id = ud.dept_id
+        where user_id = #{publisher}
+    </select>
+
+    <!--
+        update stat_video_scan set
+            skim_user_count = case when id=? then ?
+                                   when id=? then ?
+                              end,
+            skim_rate = case when id=? then ?
+                             when id=? then ?
+                             end
+            where id in ( ? , ? )
+         prefix: 在条件语句前需要加入的内容，也是给sql拼接的前缀
+         suffix：在条件语句后需要加入的内容，sql拼接后缀
+         prefixOverrides: 覆盖/去掉前一个前缀，比如and条件
+         suffixOverrides: 覆盖/去掉前一个后缀
+
+         <trim prefix="set" suffixOverrides="," prefixOverrides='AND'>
+            <where>
+                <if>
+                    AND a = #{}
+                </if>
+            </where>
+         </trim>
+    -->
+    <update id="updateList" parameterType="java.util.List">
+        update stat_video_scan
+        <trim prefix="set" suffixOverrides=",">
+            <trim prefix="skim_user_count = case" suffix="end,">
+                <foreach collection="list" item="item">
+                    when id=#{item.id} then #{item.skimUserCount}
+                </foreach>
+            </trim>
+            <trim prefix="skim_rate = case" suffix="end,">
+                <foreach collection="list" item="item">
+                    when id=#{item.id} then #{item.skimRate}
+                </foreach>
+            </trim>
+        </trim>
+        where id in
+        <foreach close=")" collection="list" item="item" open="(" separator=", ">
+            #{item.id}
+        </foreach>
+    </update>
+</mapper>

@@ -1,0 +1,35 @@
+server:
+  port: 8088
+  tomcat:
+    uri-encoding: UTF-8
+    #最大等待队列长度，默认100
+    accept-count: 500
+
+spring:
+  profiles:
+    active: dev
+  servlet:
+    multipart:
+      max-file-size: 500MB
+      max-request-size: 1000MB
+
+#mybatis-plus
+mybatis-plus:
+  mapper-locations: classpath:/mapper/*.xml
+  type-aliases-package: com.niulijie.mdm.entity
+  global-config:
+    db-config:
+      logic-delete-value: 2      #逻辑删除判断
+      logic-not-delete-value: 1
+    banner: false
+  configuration:
+    call-setters-on-nulls: true
+    map-underscore-to-camel-case: true
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl
+
+logging:
+  config: classpath:logback-spring.xml
+
+
+
+

@@ -1,0 +1,252 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.mdm.mapper.ContVideoMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.niulijie.mdm.entity.ContVideo">
+        <id column="video_id" property="videoId" />
+        <result column="cate_id" property="cateId" />
+        <result column="title" property="title" />
+        <result column="introduction" property="introduction" />
+        <result column="video_url" property="videoUrl" />
+        <result column="video_md5" property="videoMd5" />
+        <result column="picture_url" property="pictureUrl" />
+        <result column="publisher" property="publisher" />
+        <result column="dept_id" property="deptId" />
+        <result column="audit_status" property="auditStatus" />
+        <result column="commented" property="commented" />
+        <result column="visualed" property="visualed" />
+        <result column="like_count" property="likeCount" />
+        <result column="collect_count" property="collectCount" />
+        <result column="comment_count" property="commentCount" />
+        <result column="total_count" property="totalCount" />
+        <result column="skim_count" property="skimCount" />
+        <result column="skim_time" property="skimTime" />
+        <result column="top_status" property="topStatus" />
+        <result column="top_time" property="topTime" />
+        <result column="deleted" property="deleted" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <resultMap id="videoUserDetailInfoMap" type="com.niulijie.mdm.dto.response.ContVideoAppDetailResp">
+        <id column="video_id" property="videoId" />
+        <result column="introduction" property="introduction" />
+        <result column="video_url" property="videoUrl" />
+        <result column="picture_url" property="pictureUrl" />
+        <result column="publisher" property="publisher" />
+        <result column="commented" property="commented" />
+        <result column="visualed" property="visualed" />
+        <result column="like_count" property="likeCount" />
+        <result column="collect_count" property="collectCount" />
+        <result column="comment_count" property="commentCount" />
+        <result column="likeId" property="likeId" />
+        <result column="collectId" property="collectId" />
+        <collection property="userDetailResp" select="getUserDetailInfo" column="publisher"/>
+    </resultMap>
+
+    <!-- 返回用户详细信息 -->
+    <select id="getUserDetailInfo" resultType="com.niulijie.mdm.dto.response.UserDetailResp">
+        SELECT us.user_id, us.`name`, us.avatar, ud.dept_id, SUBSTRING_INDEX(SUBSTRING_INDEX(dept_path,'>',3),'>',-2) dept_path
+        from uc_user us
+                 LEFT JOIN uc_user_dept usd ON us.user_id = usd.user_id
+                 LEFT JOIN uc_dept ud ON usd.dept_id = ud.dept_id
+        where us.user_id = #{publisher}
+    </select>
+
+    <update id="updateCollectCountById" parameterType="java.lang.Integer">
+        update cont_video set collect_count = collect_count + #{value} where video_id = #{videoId}
+    </update>
+
+    <update id="updateCommentCountById" parameterType="java.lang.Integer">
+        update cont_video set comment_count = comment_count + #{count} where video_id = #{videoId}
+    </update>
+
+    <!-- 点赞数统计 +1 操作 -->
+    <update id="likeCountIncrease"  >
+        update
+            cont_video
+        set
+            like_count = cont_video.like_count + 1
+        where
+            video_id = #{contentId}
+    </update>
+
+    <!-- 点赞数统计 -1 操作 -->
+    <update id="likeCountReduce"  >
+        update
+            cont_video
+        set
+            like_count = cont_video.like_count - 1
+        where
+            video_id = #{contentId}
+    </update>
+
+    <!--  更新视频浏览数和浏览时间  -->
+    <update id="updateVideoSkimInfo">
+        update cont_video
+        set skim_count = skim_count + 1,
+            skim_time = skim_time + #{duration}
+        where
+            video_id = #{videoId}
+    </update>
+
+    <!--  根据视频ids批量更新评论数量 -->
+    <update id="updateCommentCountByIds">
+        update cont_video set comment_count = comment_count + #{count}
+        <where>
+            video_id in
+            <foreach collection="videoIds" item="videoId" open="(" close=")" separator=",">
+                #{videoId}
+            </foreach>
+        </where>
+    </update>
+
+    <!--查询视频列表 - PC端页面-->
+    <select id="selectPageList" resultType="com.niulijie.mdm.dto.response.ContVideoManagerResp">
+        SELECT cv.video_id, cv.cate_id, cc.cate_name, cv.introduction, cv.video_url, cv.picture_url, cv.publisher, uu.`name`, uu.avatar,
+            cv.like_count, cv.collect_count, cv.comment_count, cv.commented, cv.visualed as visualed, cv.top_status, cv.top_time, cv.create_time
+        from cont_video cv
+        LEFT JOIN cont_category cc ON cv.cate_id = cc.cate_id
+        LEFT JOIN uc_user uu ON cv.publisher = uu.user_id
+        <where>
+            cv.deleted = 1
+            AND cv.audit_status = 1
+            <if test="cateId != null">
+                AND cv.cate_id = #{cateId}
+            </if>
+            <if test="deptIdList != null">
+                AND cv.dept_id IN
+                <foreach collection="deptIdList" item="deptId" index="index" separator="," open="(" close=")" >
+                    #{deptId}
+                </foreach>
+            </if>
+            <if test="searchKey != null and searchKey != ''">
+                AND CONCAT(IFNULL(cv.introduction,''),'',IFNULL(uu.`name`,'')) like CONCAT('%',#{searchKey},'%')
+            </if>
+        </where>
+        ORDER BY cv.top_status DESC, cv.video_id DESC
+    </select>
+
+    <select id="selectVideoIds" resultType="java.lang.Integer" parameterType="java.lang.Integer">
+        select video_id from cont_video where cate_id = #{cateId} and deleted = 1
+    </select>
+
+    <select id="selectPageDetail" resultMap="videoUserDetailInfoMap">
+        SELECT cv.video_id, cv.introduction, cv.video_url, cv.picture_url, cv.publisher, cv.like_count, cv.collect_count, cv.comment_count,
+               cv.commented, cv.visualed, cv.deleted, vl.id likeId, vc.id collectId
+        FROM cont_video cv
+                 LEFT JOIN cont_video_like vl ON vl.content_id = cv.video_id AND vl.point_type = 0 AND vl.point = #{queryParam.userId}
+                 LEFT JOIN cont_video_collect vc ON vc.video_id = cv.video_id AND vc.collector = #{queryParam.userId}
+        <where>
+            cv.audit_status = 1
+            <if test="queryParam.videoIdList != null">
+                AND cv.video_id IN
+                <foreach collection="queryParam.videoIdList" item="videoId" index="index" separator="," open="(" close=")" >
+                    #{videoId}
+                </foreach>
+            </if>
+            <if test="queryParam.cateId != null">
+                AND cv.cate_id = #{queryParam.cateId}
+            </if>
+            <if test="queryParam.searchKey != null and queryParam.searchKey != ''">
+                AND cv.introduction LIKE concat('%',#{queryParam.searchKey},'%')
+            </if>
+            <if test="queryParam.deleted != null">
+                AND cv.deleted = #{queryParam.deleted}
+            </if>
+            <if test="queryParam.topStatus != null">
+                AND cv.top_status = #{queryParam.topStatus}
+            </if>
+        </where>
+        <if test="queryParam.videoIdList != null">
+            /*根据属性字段排序*/
+            order by field(
+            cv.video_id,
+            <foreach collection="queryParam.videoIdList" item="videoId" separator=",">
+                #{videoId}
+            </foreach>
+            )
+        </if>
+        <if test="queryParam.videoIdList == null">
+            order by cv.video_id desc
+        </if>
+    </select>
+
+    <select id="selectRecommendList" resultMap="videoUserDetailInfoMap">
+        SELECT cv.video_id, cv.introduction, cv.video_url, cv.picture_url, cv.publisher, cv.like_count, cv.collect_count, cv.comment_count,
+        cv.commented, cv.visualed, cv.deleted, vl.id likeId, vc.id collectId,
+        (case WHEN cv.video_id IN (select video_id from cont_video_trace) THEN '1'
+        ELSE '2' END) as see_sort
+        FROM cont_video cv
+        LEFT JOIN cont_video_like vl ON vl.content_id = cv.video_id AND vl.point_type = 0 AND vl.point = #{queryParam.userId}
+        LEFT JOIN cont_video_collect vc ON vc.video_id = cv.video_id AND vc.collector = #{queryParam.userId}
+        <where>
+            cv.audit_status = 1
+            <if test="queryParam.videoIdList != null">
+                AND cv.video_id IN
+                <foreach collection="queryParam.videoIdList" item="videoId" index="index" separator="," open="(" close=")" >
+                    #{videoId}
+                </foreach>
+            </if>
+            <if test="queryParam.cateId != null">
+                AND cv.cate_id = #{queryParam.cateId}
+            </if>
+            <if test="queryParam.searchKey != null and queryParam.searchKey != ''">
+                AND cv.introduction LIKE concat('%',#{queryParam.searchKey},'%')
+            </if>
+            <if test="queryParam.deleted != null">
+                AND cv.deleted = #{queryParam.deleted}
+            </if>
+            <if test="queryParam.topStatus != null">
+                AND cv.top_status = #{queryParam.topStatus}
+            </if>
+        </where>
+        ORDER BY see_sort DESC, cv.video_id DESC
+    </select>
+
+    <!--批量获取视频信息通过Md5值-->
+    <select id="selectVideoByMd5" resultType="java.util.HashMap">
+        SELECT DISTINCT title, video_md5 as videoMd5, video_url as videoUrl, picture_url as pictureUrl FROM cont_video
+        <where>
+            <if test="md5List != null">
+                video_md5 IN
+                <foreach collection="md5List" item="videoMd5" index="index" separator="," open="(" close=")" >
+                    #{videoMd5}
+                </foreach>
+            </if>
+        </where>
+    </select>
+
+    <select id="selectVideoInfo" resultType="com.niulijie.mdm.dto.response.ContVideoInfo" parameterType="java.lang.Integer">
+        SELECT cv.video_id, cv.publisher, cv.introduction, cv.video_url, cv.picture_url, cv.like_count,
+               cv.collect_count, cv.comment_count, cv.create_time,us.name as userName, us.avatar
+        FROM cont_video cv
+        JOIN uc_user us on cv.publisher = us.user_id
+        where video_id = #{videoId}
+    </select>
+
+    <select id="selectPageInfo" resultType="com.niulijie.mdm.dto.response.VideoHotUserInfo">
+        select c.video_id, c.publisher, c.introduction, c.cate_id, c.like_count, c.collect_count,
+               c.comment_count, c.total_count, c.create_time, u.name as userName
+        from cont_video c
+        left join uc_user u
+        on c.publisher = u.user_id
+        <where>
+            c.deleted = 1
+            <if test="searchKey != null and searchKey != ''">
+                AND CONCAT(IFNULL(c.introduction,''),'@',IFNULL(u.`name`,'')) like CONCAT('%',#{searchKey},'%')
+            </if>
+            <if test="date != null">
+                AND c.update_time >= #{date}
+            </if>
+            <if test="videoIds != null and videoIds.size() > 0">
+                and c.video_id IN
+                <foreach collection="videoIds" item="videoId" index="index" separator="," open="(" close=")" >
+                    #{videoId}
+                </foreach>
+            </if>
+        </where>
+        order by c.total_count desc
+    </select>
+</mapper>

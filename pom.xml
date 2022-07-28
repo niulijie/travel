@@ -42,6 +42,7 @@
         <module>Collections</module>
         <module>springbootweb</module>
         <module>admin</module>
+        <module>mdm</module>
     </modules>
 
     <!-- 属性设置 -->

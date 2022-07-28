@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.mdm.mapper.SysSensitiveWordMapper">
+
+    <!-- 通用查询映射结果 -->
+    <resultMap id="BaseResultMap" type="com.niulijie.mdm.entity.SysSensitiveWord">
+        <id column="id" property="id" />
+        <result column="sensitive_word" property="sensitiveWord" />
+        <result column="creator" property="creator" />
+        <result column="create_time" property="createTime" />
+        <result column="update_time" property="updateTime" />
+    </resultMap>
+
+    <insert id="insertList" parameterType="java.util.List">
+        insert into sys_sensitive_word (sensitive_word, creator, create_time, update_time)
+        values
+        <foreach collection="sysSensitiveWords" item="sysSensitiveWord" separator=",">
+            ( #{sysSensitiveWord.sensitiveWord},#{sysSensitiveWord.creator},#{sysSensitiveWord.createTime},#{sysSensitiveWord.updateTime})
+        </foreach>
+    </insert>
+
+    <select id="selectSensitiveWord" resultType="java.lang.String">
+        select sensitive_word from sys_sensitive_word
+    </select>
+
+</mapper>

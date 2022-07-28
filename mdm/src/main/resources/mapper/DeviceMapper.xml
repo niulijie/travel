@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.mdm.mapper.DeviceMapper">
+
+    <insert id="batchAddDevice"  useGeneratedKeys="true" keyProperty="deviceId" >
+        insert into device_info (user_id,mode_type, user_name, device_mid, dept_id ,phone ,pin ,imei ,imsi ,meid ,creator,system)
+        values
+        <foreach collection="list" item="device" separator=",">
+            (#{device.userId},#{device.modeType},#{device.userName},#{device.deviceModelId},#{device.deptId},#{device.phone},#{device.pin},#{device.imei},
+             #{device.imsi},#{device.meid},#{device.creator},"无")
+        </foreach>
+    </insert>
+
+    <select id="selectDeviceByDeviceId" resultType="java.lang.Integer">
+        select device_id from device_info
+        where device_id in
+        <foreach collection="deviceIds" item="deviceId" open="(" close=")" separator=",">
+            #{deviceId}
+        </foreach>
+        and status = #{status}
+    </select>
+
+    <select id="getDeviceByUserId" resultType="com.niulijie.mdm.entity.Device">
+        select device_id, device_mid, user_id, imei from device_info
+        where user_id in
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+        and status = #{status}
+    </select>
+
+    <select id="getDeviceIds" resultType="java.lang.Integer">
+        select device_id from device_info
+        where user_id in
+        <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+            #{userId}
+        </foreach>
+        and status = #{status}
+    </select>
+
+    <select id="selectBaseDeviceByDeviceId" resultType="com.niulijie.mdm.entity.Device">
+        select device_id, user_id, imei from device_info
+        where device_id in
+        <foreach collection="deviceIds" item="deviceId" open="(" close=")" separator=",">
+            #{deviceId}
+        </foreach>
+        and status = #{status}
+    </select>
+
+    <select id="deviceChooseField" resultType="java.util.Map">
+        select ${fieldName}
+        from device_info info
+        left join device_dept_rel relOne on  relOne.dept_id = info.dept_id
+        left join device_model relTwo on  relTwo.device_mid = info.device_mid
+        where 1=1
+        <if test="userIds != null and userIds.size()>0 ">
+            and info.user_id in
+            <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+                #{userId}
+            </foreach>
+        </if>
+        <if test="phone != null and phone != ''">
+            and info.phone LIKE CONCAT("%",#{phone},"%")
+        </if>
+        <if test="name != null and name != ''">
+            and info.user_name LIKE CONCAT("%",#{name},"%")
+        </if>
+        <if test="status != null">
+            and info.status = #{status}
+        </if>
+        <if test="imei != null and imei != ''">
+            and info.imei = #{imei}
+        </if>
+        order by info.updated_time  desc
+    </select>
+
+    <select id="deviceAllExportByGroup" resultType="com.niulijie.mdm.dto.response.DeviceByGroupExport">
+        select info.user_id AS userId,info.user_name AS userName,info.phone AS phone,relOne.dept_path AS deptPath,relTwo.name AS name,info.imei AS imei ,
+        IF(( info.regist_type = 0 ), "服务端开通", "客户端注册" ) AS registType,
+        info.mode_type AS modeType,
+        IF(     ( info.STATUS >= 2 ),       IF( ( info.STATUS = 3 ), "注销中", "禁用" ),      IF( ( info.STATUS = 0 ), "注销", "正常" )      ) AS STATUS,
+        info.updated_time AS updatedTime
+        from device_info info
+                 left join device_dept_rel relOne on  relOne.dept_id = info.dept_id
+                 left join device_model relTwo on  relTwo.device_mid = info.device_mid
+        where 1=1
+        <if test="userIds != null and userIds.size()>0 ">
+            and info.user_id in
+            <foreach collection="userIds" item="userId" open="(" close=")" separator=",">
+                #{userId}
+            </foreach>
+        </if>
+        <if test="status != null and status.size()>0 ">
+            and info.status in
+            <foreach collection="status" item="s" open="(" close=")" separator=",">
+                #{s}
+            </foreach>
+        </if>
+        order by info.updated_time  desc
+    </select>
+</mapper>

@@ -1,0 +1,123 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0"
+         xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+         xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+    <parent>
+        <artifactId>travel</artifactId>
+        <groupId>com.niulijie</groupId>
+        <version>1.0-SNAPSHOT</version>
+    </parent>
+    <modelVersion>4.0.0</modelVersion>
+
+    <groupId>com.niulijie</groupId>
+    <artifactId>mdm</artifactId>
+
+    <properties>
+        <maven.compiler.source>8</maven.compiler.source>
+        <maven.compiler.target>8</maven.compiler.target>
+        <mybatis.plus.version>3.5.2</mybatis.plus.version>
+        <spring.boot.version>2.2.7.RELEASE</spring.boot.version>
+        <redisson.version>3.17.3</redisson.version>
+        <minio.version>8.2.1</minio.version>
+        <hutool.version>5.8.2</hutool.version>
+        <easyexcel.version>2.2.6</easyexcel.version>
+        <javacv.version>1.4.3</javacv.version>
+        <javacpp.platform.dependencies>windows-x86_64</javacpp.platform.dependencies>
+        <javacpp.platform.linux-x86_64>linux-x86_64</javacpp.platform.linux-x86_64>
+    </properties>
+
+    <dependencies>
+        <!--web启动 环境依赖，只要这个依赖+spring-boot-starter-parent项目就可以起来-->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-aop</artifactId>
+        </dependency>
+        <!--mybatis plus依赖-->
+        <dependency>
+            <groupId>com.baomidou</groupId>
+            <artifactId>mybatis-plus-boot-starter</artifactId>
+            <version>${mybatis.plus.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>mysql</groupId>
+            <artifactId>mysql-connector-java</artifactId>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-amqp</artifactId>
+            <version>${spring.boot.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>org.redisson</groupId>
+            <artifactId>redisson</artifactId>
+            <version>${redisson.version}</version>
+        </dependency>
+
+        <dependency>
+            <groupId>io.minio</groupId>
+            <artifactId>minio</artifactId>
+            <version>${minio.version}</version>
+        </dependency>
+
+        <!-- hutool工具 -->
+        <dependency>
+            <groupId>cn.hutool</groupId>
+            <artifactId>hutool-all</artifactId>
+            <version>${hutool.version}</version>
+        </dependency>
+
+        <!--excel文件操作依赖-->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>easyexcel</artifactId>
+            <version>${easyexcel.version}</version>
+        </dependency>
+
+        <!--start:视频获取某一帧的图片-->
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+            <version>1.5.4</version>
+            <classifier>${javacpp.platform.dependencies}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>4.3.1-1.5.4</version>
+            <classifier>${javacpp.platform.dependencies}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacpp</artifactId>
+            <version>1.5.4</version>
+            <classifier>${javacpp.platform.linux-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>ffmpeg</artifactId>
+            <version>4.3.1-1.5.4</version>
+            <classifier>${javacpp.platform.linux-x86_64}</classifier>
+        </dependency>
+        <dependency>
+            <groupId>org.bytedeco</groupId>
+            <artifactId>javacv</artifactId>
+            <version>1.5.4</version>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.bytedeco</groupId>
+                    <artifactId>javacpp</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+        <!--end:视频获取某一帧的图片-->
+
+    </dependencies>
+</project>
