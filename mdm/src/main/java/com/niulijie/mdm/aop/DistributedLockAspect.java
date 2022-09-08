@@ -2,14 +2,13 @@ package com.niulijie.mdm.aop;
 
 import cn.hutool.json.JSONObject;
 import cn.hutool.json.JSONUtil;
-import com.telecomyt.common.model.NoRepeatSubmit;
-import lombok.extern.slf4j.Slf4j;
+import com.niulijie.mdm.dto.param.DistributedLock;
+import com.niulijie.mdm.util.DistributedRedisLock;
 import org.apache.commons.codec.digest.DigestUtils;
 import org.aspectj.lang.ProceedingJoinPoint;
 import org.aspectj.lang.annotation.Around;
 import org.aspectj.lang.annotation.Aspect;
 import org.aspectj.lang.annotation.Pointcut;
-import org.springframework.data.redis.core.ValueOperations;
 import org.springframework.stereotype.Component;
 import org.springframework.util.Assert;
 import org.springframework.web.context.request.RequestContextHolder;
@@ -17,58 +16,54 @@ import org.springframework.web.context.request.ServletRequestAttributes;
 
 import javax.annotation.Resource;
 import javax.servlet.http.HttpServletRequest;
-import java.util.concurrent.TimeUnit;
-
 
 /**
- * @author www.gaozz.club
- * @功能描述 aop解析注解
- * @date 2018-11-02
+ * 锁aop
  */
 @Aspect
 @Component
-@Slf4j
-public class NoRepeatSubmitAop {
-
-    private static final String LOCK_TITLE = "repeat:";
+public class DistributedLockAspect {
 
     @Resource
-    private ValueOperations<String,Object> stringRedis;
+    private DistributedRedisLock distributedRedisLock;
 
     /**
      * 切点
      *
-     * @param noRepeatSubmit 注解
+     * @param distributedLock 注解
      */
-    @Pointcut("@annotation(noRepeatSubmit)")
-    public void pointCut(NoRepeatSubmit noRepeatSubmit) {
+    @Pointcut("@annotation(distributedLock)")
+    public void pointCut(DistributedLock distributedLock) {
     }
 
     /**
-     * 利用环绕通知进行处理重复提交问题
-     *
-     * @param pjp            ProceedingJoinPoint
-     * @param noRepeatSubmit 注解
-     * @return Object
+     * 方法执行前锁,执行结束后释放锁,如果未获取到锁的key则不加锁
+     * annotation内放自定义注解
      */
-    @Around(value = "pointCut(noRepeatSubmit)", argNames = "pjp,noRepeatSubmit")
-    public Object around(ProceedingJoinPoint pjp, NoRepeatSubmit noRepeatSubmit) throws Throwable {
-        long lockMillSeconds = noRepeatSubmit.lockTime();
+    @Around(value = "pointCut(distributedLock)", argNames = "joinPoint,distributedLock")
+    public Object doAround(ProceedingJoinPoint joinPoint, DistributedLock distributedLock) throws Throwable {
         //获得request对象
         HttpServletRequest request = httpServletRequest();
         Assert.notNull(request, "request can not null");
-        Object[] args = pjp.getArgs();
+        Object[] args = joinPoint.getArgs();
         Object param = args[0];
         JSONObject jsonObject = JSONUtil.parseObj(param, true);
         // 请求参数base64
         String baseParams = DigestUtils.md5Hex(jsonObject.toString() == null ? "" : jsonObject.toString());
-        String key = LOCK_TITLE + request.getServletPath() + ":" + baseParams;
-        Boolean boolValue = stringRedis.setIfAbsent(key, 1, lockMillSeconds, TimeUnit.SECONDS);
-        if (boolValue != null && boolValue) {
-            return pjp.proceed();
+        String key = request.getServletPath() + ":" + baseParams;
+        Object object = null;
+        try {
+            //加锁
+            boolean acquire = distributedRedisLock.acquire(key);
+            if (acquire) {
+                //执行方法
+                object = joinPoint.proceed();
+            }
+        } finally {
+            //循环将所有锁释放
+            distributedRedisLock.release(key);
         }
-        log.error("请求地址：{}，请求参数：{}，重复提交",request.getServletPath(), jsonObject);
-        return null;
+        return object;
     }
 
     /**
@@ -81,5 +76,4 @@ public class NoRepeatSubmitAop {
         assert requestAttributes != null;
         return requestAttributes.getRequest();
     }
-
 }

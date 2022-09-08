@@ -16,6 +16,7 @@ import com.niulijie.mdm.result.BusinessException;
 import com.niulijie.mdm.result.PageResult;
 import com.niulijie.mdm.result.Result;
 import com.niulijie.mdm.util.BeanCopierUtil;
+import com.niulijie.mdm.util.SensitiveWordFilter;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.stereotype.Service;
 import org.springframework.transaction.annotation.Transactional;
@@ -137,13 +138,7 @@ public class AppVideoCommentService {
      * 敏感词检测，获取所有敏感词
      */
     private boolean sensitiveWordCheck(String text) {
-        List<String> sysSensitiveWords = sysSensitiveWordMapper.selectSensitiveWord();
-        for (String sysSensitiveWord : sysSensitiveWords) {
-            if (text.contains(sysSensitiveWord)) {
-                return true;
-            }
-        }
-        return false;
+        return SensitiveWordFilter.isContaintSensitiveWord(text, 1);
     }
 
     /**

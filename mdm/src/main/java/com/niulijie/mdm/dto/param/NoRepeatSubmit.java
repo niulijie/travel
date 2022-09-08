@@ -14,5 +14,5 @@ import java.lang.annotation.Target;
 @Retention(RetentionPolicy.RUNTIME)
 public @interface NoRepeatSubmit {
 
-    long lockTime() default 3;
+    long lockTime() default 1;
 }

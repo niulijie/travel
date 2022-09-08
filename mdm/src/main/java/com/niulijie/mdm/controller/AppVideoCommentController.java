@@ -1,5 +1,7 @@
 package com.niulijie.mdm.controller;
 
+import com.niulijie.mdm.dto.param.DistributedLock;
+import com.niulijie.mdm.dto.param.NoRepeatSubmit;
 import com.niulijie.mdm.dto.request.ContVideoCommentParam;
 import com.niulijie.mdm.dto.response.ContVideoCommentInfo;
 import com.niulijie.mdm.result.BaseResult;
@@ -66,6 +68,7 @@ public class AppVideoCommentController {
     /**
      * 评论点赞
      */
+    @DistributedLock
     @PostMapping("comment/like")
     public BaseResult likeComment(@Validated(ContVideoCommentParam.LikeComment.class)
                                       @RequestBody ContVideoCommentParam contVideoCommentParam) {
@@ -79,6 +82,7 @@ public class AppVideoCommentController {
     /**
      * 评论点赞取消
      */
+    @NoRepeatSubmit
     @PostMapping("comment/like/cancel")
     public BaseResult likeCommentCancel(@Validated(ContVideoCommentParam.LikeComment.class)
                                   @RequestBody ContVideoCommentParam contVideoCommentParam) {
