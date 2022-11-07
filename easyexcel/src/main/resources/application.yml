@@ -1,0 +1,31 @@
+server:
+  port: 9999
+
+spring:
+  # [运维配置] -> [数据库配置]
+  datasource:
+    driver-class-name: com.mysql.cj.jdbc.Driver
+    url: jdbc:mysql://172.16.20.155:3306/ucenterv1-8?useUnicode=true&characterEncoding=utf8&useSSL=false&allowMultiQueries=true&serverTimezone=Asia/Shanghai
+    username: dxyt
+    password: dxyt@2020=-
+  hikari:
+    auto-commit: true
+    connection-test-query: SELECT 1
+    connection-timeout: 9000
+    idle-timeout: 600000
+    max-lifetime: 1800000
+    maximum-pool-size: 500
+    minimum-idle: 50
+    pool-name: DemoHikariCP
+
+mybatis-plus:
+  # 枚举类使用配置 支持统配符 * 或者 ; 分割
+  type-enums-package: com.niulijie.springboot.enums
+  configuration:
+    # 3.0.8之前版本问题默认将枚举注册为EnumOrdinalTypeHandler,这是错误的方式,默认是 org.apache.ibatis.type.EnumTypeHandler
+    # 如果项目之中实体统一使用IEnum或注解的方式,可配置成 com.baomidou.mybatisplus.extension.handlers.EnumTypeHandler,也可省略上面的type-enums-package配置
+    # 配置type-enums-package只对注解方式的枚举处理能提前加载缓存.
+    # default-enum-type-handler开启后才可以使用原生枚举
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    # 打印日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

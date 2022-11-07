@@ -43,6 +43,7 @@
         <module>springbootweb</module>
         <module>admin</module>
         <module>mdm</module>
+        <module>easyexcel</module>
     </modules>
 
     <!-- 属性设置 -->
