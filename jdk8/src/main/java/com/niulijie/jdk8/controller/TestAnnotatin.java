@@ -3,10 +3,12 @@ package com.niulijie.jdk8.controller;
 import com.niulijie.jdk8.annotation.Person;
 import com.niulijie.jdk8.annotation.Persons;
 import com.niulijie.jdk8.dto.AnnotationNameOnMethod;
+import com.niulijie.jdk8.dto.AnnotationPassword;
 import com.niulijie.jdk8.dto.AnnotationPersonOnClass;
 import com.niulijie.jdk8.dto.AnnotationUser;
 import com.niulijie.jdk8.factory.UserFactory;
 
+import javax.validation.Valid;
 import java.lang.annotation.Annotation;
 import java.lang.reflect.Method;
 import java.util.Arrays;
@@ -27,7 +29,21 @@ public class TestAnnotatin {
         //testAnnotationName();
 
         // 测试可重复使用自定义注解@Person在类上
-        testAnnotationPersonOnClass();
+        //testAnnotationPersonOnClass();
+
+        // 测试元注解@Constraint
+        testAnnotationPassword();
+    }
+
+    /**
+     * 测试元注解@Constraint
+     */
+    private static void testAnnotationPassword() {
+        AnnotationPassword annotationPassword = new AnnotationPassword();
+        annotationPassword.setNewPwd("1");
+        //Valid valid = new Valid();
+        System.out.println(annotationPassword);
+
     }
 
     /**
