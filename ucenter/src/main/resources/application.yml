@@ -1,0 +1,71 @@
+spring:
+  application:
+    name: ucenter
+  profiles:
+    active: ailink
+  messages:
+    encoding: UTF-8
+    basename: i18n/messages
+    cache-duration: 7200s
+  jackson:
+    date-format: yyyy-MM-dd HH:mm:ss
+    time-zone: GMT+8
+server:
+  servlet:
+    context-path: /ucenter
+log:
+  server:
+    path: logs/
+default:
+  tenant:
+    attrs:
+      - attrField: name
+        attrName: 姓名
+        isNull: 1
+        rule: (^.{1,20}$)
+      - attrField: sex
+        attrName: 性别
+        rule: ([/^男$|^女&/])
+        isNull: 1
+        items:
+          - 男
+          - 女
+      - attrField: telephone
+        attrName: 手机号
+        rule: ([1][0-9]{10}$)
+        isNull: 1
+      - attrField: idCard
+        attrName: 身份证号
+        rule: (^\d{15}$)|(^\d{18}$)|(^\d{17}(\d|X|x)$)
+        isNull: 1
+      - attrField: userNo
+        attrName: 工号
+        rule: ([0-9]{1,12}$)
+        isNull: 0
+      - attrField: email
+        attrName: 邮箱
+        rule: \w[-\w.+]*@([A-Za-z0-9][A-Za-z0-9]+\.)+[A-Za-z]{2,14}
+        isNull: 1
+      - attrField: deptName
+        attrName: 所属部门
+        isNull: 1
+  dept:
+    attrs:
+      - attrField: deptName
+        attrName: 部门名称
+        isNull: 1
+      - attrField: deptName
+        attrName: 上级部门名称
+        isNull: 1
+enable:
+  schedule: false
+
+mybatis-plus:
+  configuration:
+    # 3.0.8之前版本问题默认将枚举注册为EnumOrdinalTypeHandler,这是错误的方式,默认是 org.apache.ibatis.type.EnumTypeHandler
+    # 如果项目之中实体统一使用IEnum或注解的方式,可配置成 com.baomidou.mybatisplus.extension.handlers.EnumTypeHandler,也可省略上面的type-enums-package配置
+    # 配置type-enums-package只对注解方式的枚举处理能提前加载缓存.
+    # default-enum-type-handler开启后才可以使用原生枚举
+    default-enum-type-handler: org.apache.ibatis.type.EnumOrdinalTypeHandler
+    # 打印日志
+    log-impl: org.apache.ibatis.logging.stdout.StdOutImpl

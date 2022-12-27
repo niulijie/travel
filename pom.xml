@@ -44,6 +44,7 @@
         <module>admin</module>
         <module>mdm</module>
         <module>easyexcel</module>
+        <module>ucenter</module>
     </modules>
 
     <!-- 属性设置 -->
