@@ -45,6 +45,7 @@
         <module>mdm</module>
         <module>easyexcel</module>
         <module>ucenter</module>
+        <module>jwt</module>
     </modules>
 
     <!-- 属性设置 -->
