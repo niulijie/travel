@@ -15,9 +15,26 @@
         <maven.compiler.source>8</maven.compiler.source>
         <maven.compiler.target>8</maven.compiler.target>
         <mybatis-plus.version>3.4.3.1</mybatis-plus.version>
+        <fastjson.version>1.2.58</fastjson.version>
     </properties>
 
     <dependencies>
+        <!-- 实现 Web 场景开发 包括 Tomcat 和 spring-webmvc -->
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-web</artifactId>
+            <exclusions>
+                <exclusion>
+                    <groupId>org.springframework.boot</groupId>
+                    <artifactId>spring-boot-starter-tomcat</artifactId>
+                </exclusion>
+            </exclusions>
+        </dependency>
+
+        <dependency>
+            <groupId>org.springframework.boot</groupId>
+            <artifactId>spring-boot-starter-undertow</artifactId>
+        </dependency>
         <!-- ====================== DB依赖 开始 ====================== -->
         <!-- mysql JDBC 驱动 -->
         <dependency>
@@ -33,5 +50,21 @@
         </dependency>
 
         <!-- ====================== DB依赖 结束 ====================== -->
+
+        <!-- ====================== 工具类依赖 开始 ====================== -->
+        <!--token生成-->
+        <dependency>
+            <groupId>io.jsonwebtoken</groupId>
+            <artifactId>jjwt</artifactId>
+            <version>0.9.1</version>
+        </dependency>
+
+        <!-- 阿里fastjson -->
+        <dependency>
+            <groupId>com.alibaba</groupId>
+            <artifactId>fastjson</artifactId>
+            <version>${fastjson.version}</version>
+        </dependency>
+        <!-- ====================== 工具类依赖 结束 ====================== -->
     </dependencies>
 </project>

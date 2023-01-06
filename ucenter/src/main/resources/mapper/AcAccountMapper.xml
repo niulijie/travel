@@ -1,0 +1,257 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.ucenter.mapper.AcAccountMapper">
+
+    <resultMap id="AccountListResultMap" type="com.niulijie.ucenter.pojo.present.VO.account.AcAccountListVO">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+        <result column="account_type" jdbcType="INTEGER" property="accountType" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="telephone" jdbcType="VARCHAR" property="telephone" />
+        <result column="creator" jdbcType="INTEGER" property="creator" />
+        <result column="creator_name" jdbcType="VARCHAR" property="creatorName" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="password" jdbcType="CHAR" property="password" />
+        <result column="salt" jdbcType="CHAR" property="salt" />
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+        <collection column="{accountId=account_id}" select="getAccountDeptlist" property="depts" ofType="com.niulijie.ucenter.pojo.present.VO.account.AcAccountDeptVO">
+        </collection>
+        <collection column="{accountId=account_id}" select="getAccountRolelist" property="roles" ofType="com.niulijie.ucenter.pojo.present.VO.account.AcAccountRoleVO">
+        </collection>
+        <collection column="{accountId=account_id}" select="getAccountGrouplist" property="groups" ofType="com.niulijie.ucenter.pojo.present.VO.account.AcAccountGroupVO">
+        </collection>
+    </resultMap>
+
+    <resultMap id="AccountDeptResultMap" type="com.niulijie.ucenter.pojo.present.VO.account.AcAccountDeptVO">
+        <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+        <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+    </resultMap>
+
+    <resultMap id="AccountRoleResultMap" type="com.niulijie.ucenter.pojo.present.VO.account.AcAccountRoleVO">
+        <id column="role_id" jdbcType="INTEGER" property="roleId" />
+        <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        <result column="creator" jdbcType="INTEGER" property="creator" />
+        <result column="creator_name" jdbcType="INTEGER" property="creatorName" />
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+    </resultMap>
+
+    <resultMap id="AccountGroupResultMap" type="com.niulijie.ucenter.pojo.present.VO.account.AcAccountGroupVO">
+        <id column="group_id" jdbcType="INTEGER" property="groupId" />
+        <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        <result column="creator" jdbcType="INTEGER" property="creator" />
+        <result column="create_time" jdbcType="TIMESTAMP" property="createdTime" />
+    </resultMap>
+
+    <!--
+    <resultMap id="BaseResultMap" type="com.niulijie.ucenter.pojo.entity.AcAccount">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+        <result column="account_type" jdbcType="INTEGER" property="accountType" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="creator" jdbcType="INTEGER" property="creator" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="password" jdbcType="CHAR" property="password" />
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+    </resultMap>
+
+    <resultMap id="AccountListResultMap" type="com.niulijie.ucenter.pojo.present.VO.account.AcAccountListVO">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+        <result column="account_type" jdbcType="INTEGER" property="accountType" />
+        <result column="user_id" jdbcType="INTEGER" property="userId" />
+        <result column="creator" jdbcType="INTEGER" property="creator" />
+        <result column="status" jdbcType="INTEGER" property="status" />
+        <result column="password" jdbcType="CHAR" property="password" />
+        <result column="created_time" jdbcType="TIMESTAMP" property="createdTime" />
+        <result column="updated_time" jdbcType="TIMESTAMP" property="updatedTime" />
+        <collection property="depts" ofType="com.niulijie.ucenter.pojo.entity.UcDept">
+            <id column="dept_id" jdbcType="INTEGER" property="deptId" />
+            <result column="dept_name" jdbcType="VARCHAR" property="deptName" />
+        </collection>
+        <collection property="roles" ofType="com.niulijie.ucenter.pojo.entity.RoleEntity">
+            <id column="role_id" jdbcType="INTEGER" property="roleId" />
+            <result column="role_name" jdbcType="VARCHAR" property="roleName" />
+        </collection>
+        <collection property="groups" ofType="com.niulijie.ucenter.pojo.entity.AcGroup">
+            <id column="group_id" jdbcType="INTEGER" property="groupId" />
+            <result column="group_name" jdbcType="VARCHAR" property="groupName" />
+        </collection>
+    </resultMap>
+    -->
+
+    <sql id="Base_Column_List">
+        a.account_id, a.account_name, a.account_type, a.user_id, a.creator, a.`status`, a.created_time, a.updated_time
+    </sql>
+
+    <!--
+    <select id="list" resultMap="AccountListResultMap">
+        select <include refid="Base_Column_List"/>,
+          ad.dept_id, d.dept_name, ar.role_id, r.role_name, ag.group_id, g.group_name
+        from ac_account a
+        left join ac_account_dept ad on ad.account_id = a.account_id
+        left join uc_dept d on d.dept_id = ad.dept_id
+        left join ac_role_data_user ar on ar.account_id = a.account_id
+        left join ac_role r on r.role_id = ar.role_id
+        left join ac_group_user ag on ag.user_id = a.account_id
+        left join ac_group g on g.group_id = ag.group_id
+        where a.account_name like CONCAT("%",#{acAccountListAO.accountName},"%")
+    </select>
+    -->
+    <insert id="add" parameterType="com.niulijie.ucenter.pojo.entity.AcAccount" useGeneratedKeys="true" keyProperty="accountId">
+        insert into ac_account(account_name, account_type, user_id, creator, `password`, salt)
+        value
+          (#{acAccount.accountName}, #{acAccount.accountType}, #{acAccount.userId}, #{acAccount.creator}, #{acAccount.password}, #{acAccount.salt})
+    </insert>
+
+    <select id="list" resultMap="AccountListResultMap">
+        select <include refid="Base_Column_List"/>,
+          u.name as user_name, u.status as user_status, u.telephone, concat(c.name,'(',ifnull(ca.account_name,''),')') as creator_name
+        from ac_account a
+        left join uc_user u on u.user_id = a.user_id
+        left join ac_account ca on ca.account_id = a.creator
+        left join uc_user c on c.user_id = ca.user_id
+        where a.account_id &lt;&gt; 1 and a.user_id &lt;&gt; 1 and a.status &lt;&gt; 2
+        <if test="acAccountListAO.accountName !=null" >
+            AND a.account_name like CONCAT("%",#{acAccountListAO.accountName},"%")
+        </if>
+        <if test="acAccountListAO.userName !=null" >
+            AND u.name like CONCAT("%",#{acAccountListAO.userName},"%")
+        </if>
+        <if test="acAccountListAO.userIds !=null" >
+            AND a.user_id in
+            <foreach collection='acAccountListAO.userIds' item='userId' open='(' separator=',' close=')'>
+                #{userId}
+            </foreach>
+        </if>
+        <if test="acAccountListAO.creatorName !=null" >
+            AND c.name like CONCAT("%",#{acAccountListAO.creatorName},"%")
+        </if>
+        <if test="acAccountListAO.accountType !=null" >
+            AND a.account_Type = #{acAccountListAO.accountType}
+        </if>
+        <if test="acAccountListAO.telephone !=null" >
+            AND u.telephone = #{acAccountListAO.telephone}
+        </if>
+        <if test="acAccountListAO.deptId !=null">
+            and a.account_id in (select account_id from ac_account_dept where dept_id = #{acAccountListAO.deptId})
+        </if>
+        <if test="acAccountListAO.roleId !=null">
+            and a.account_id in (select account_id from ac_role_data_user where role_id = #{acAccountListAO.roleId}
+                                <if test="acAccountListAO.queryType == 1">
+                                    <if test=" acAccountListAO.beginTime !=null" >
+                                        AND created_time &gt;= #{acAccountListAO.beginTime}
+                                    </if>
+                                    <if test=" acAccountListAO.endTime !=null" >
+                                        AND created_time &lt;= #{acAccountListAO.endTime}
+                                    </if>
+                                </if>
+                                )
+        </if>
+        <if test="acAccountListAO.groupId !=null">
+            and a.account_id in (select user_id from ac_group_user where group_id = #{acAccountListAO.groupId})
+        </if>
+        <if test="acAccountListAO.queryType == 0">
+            <if test=" acAccountListAO.beginTime !=null" >
+                AND a.created_time &gt;= #{acAccountListAO.beginTime}
+            </if>
+            <if test="acAccountListAO.endTime !=null" >
+                AND a.created_time &lt;= #{acAccountListAO.endTime}
+            </if>
+        </if>
+        <if test="deptIds !=null" >
+            and a.account_id in (select account_id from ac_account_dept where dept_id in
+                                    <foreach collection='deptIds' item='deptId' open='(' separator=',' close=')'>
+                                      #{deptId}
+                                    </foreach>
+                                )
+        </if>
+        <if test="acAccountListAO.status !=null" >
+            AND a.status = #{acAccountListAO.status}
+        </if>
+        <if test="acAccountListAO.deptIds != null and acAccountListAO.deptIds.size() > 0">
+            and a.account_id in (select account_id from ac_account_dept where dept_id in
+                                    <foreach collection='acAccountListAO.deptIds' item='deptId' open='(' separator=',' close=')'>
+                                        #{deptId}
+                                    </foreach>
+                                )
+        </if>
+        <if test="acAccountListAO.queryType == 0">
+          order by a.account_id desc
+        </if>
+        <if test="acAccountListAO.queryType == 1">
+            order by (select created_time from ac_role_data_user where account_id = a.account_id and role_id = #{acAccountListAO.roleId}) desc
+        </if>
+    </select>
+
+    <select id="getAccountBatch" resultMap="AccountListResultMap">
+        select <include refid="Base_Column_List"/>,
+        u.name as user_name, u.telephone, concat(c.name,'(',ca.account_name,')') as creator_name
+        from ac_account a
+        left join uc_user u on u.user_id = a.user_id
+        left join uc_user c on c.user_id = a.creator
+        left join ac_account ca on ca.user_id = a.creator and ca.account_type = 0
+        where a.account_id in (${accountIds}) and a.status = 0
+        order by field(a.account_id,${accountIds})
+    </select>
+
+    <select id="getAccountByID" resultMap="AccountListResultMap">
+        select <include refid="Base_Column_List"/>,
+        u.name as user_name, u.telephone, concat(c.name,'(',ca.account_name,')') as creator_name
+        from ac_account a
+        left join uc_user u on u.user_id = a.user_id
+        left join uc_user c on c.user_id = a.creator
+        left join ac_account ca on ca.user_id = a.creator and ca.account_type = 0
+        where a.account_id = #{acAccountGetAO.accountId}
+    </select>
+
+    <select id="getAccountDeptlist" resultMap="AccountDeptResultMap">
+        select ad.dept_id, d.dept_name, d.dept_level, d.dept_path
+        from ac_account_dept ad
+        left join uc_dept d on d.dept_id = ad.dept_id
+        where ad.account_id = #{accountId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getAccountRolelist" resultMap="AccountRoleResultMap">
+        select ar.role_id, r.role_name, ar.creator, ar.created_time,
+               concat(c.name,'(',ca.account_name,')') as creator_name
+        from ac_role_data_user ar
+        left join ac_role r on r.role_id = ar.role_id
+        left join ac_account ca on ca.account_id = ar.creator
+        left join uc_user c on c.user_id = ca.user_id
+        where ar.account_id = #{accountId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getAccountGrouplist" resultMap="AccountGroupResultMap">
+        select ag.group_id, g.group_name, g.creator, g.create_time
+        from ac_group_user ag
+        inner join ac_group g on g.group_id = ag.group_id and g.status = 0
+        where ag.user_id = #{accountId,jdbcType=INTEGER}
+    </select>
+
+    <insert id="batchAddAccountDept" parameterType="java.util.List" >
+        insert into ac_account_dept(account_id, dept_id)
+        values
+        <foreach collection="deptList" item="deptId" index="index" separator=",">
+            (#{accountId}, #{deptId})
+        </foreach>
+    </insert>
+
+    <insert id="batchAddAccountRole" parameterType="java.util.List" >
+        insert into ac_role_data_user(account_id, role_id, creator)
+        values
+        <foreach collection="roleList" item="roleId" index="index" separator=",">
+            (#{accountId}, #{roleId}, #{creator})
+        </foreach>
+    </insert>
+
+    <insert id="batchAddAccountGroup" parameterType="java.util.List" >
+        insert into ac_group_user(user_id, group_id, creator)
+        values
+        <foreach collection="groupList" item="groupId" index="index" separator=",">
+            (#{accountId}, #{groupId}, #{creator})
+        </foreach>
+    </insert>
+
+</mapper>

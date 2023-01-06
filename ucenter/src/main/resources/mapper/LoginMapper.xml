@@ -1,0 +1,160 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+<mapper namespace="com.niulijie.ucenter.mapper.LoginMapper">
+    <resultMap id="LoginFirstMap" type="com.niulijie.ucenter.pojo.present.VO.login.LoginFirstVO">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="admin" jdbcType="BIT" property="admin"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <collection column="{accountId=account_id}" select="getTenantlist" property="tenants" ofType="com.niulijie.ucenter.pojo.view.TenantView"></collection>
+        <collection column="{accountId=account_id}" select="getDeptIdList" property="DeptIds" ofType="Integer"></collection>
+    </resultMap>
+
+    <resultMap id="LoginUserMap" type="com.niulijie.ucenter.pojo.present.VO.login.LoginFirstVO">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="admin" jdbcType="BIT" property="admin"/>
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="account_name" jdbcType="VARCHAR" property="accountName" />
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <collection column="{accountId=account_id}" select="getTenantlist" property="tenants" ofType="com.niulijie.ucenter.pojo.view.TenantView"></collection>
+        <collection column="{userId=user_id}" select="getUserDeptIdList" property="DeptIds" ofType="Integer"></collection>
+    </resultMap>
+
+    <resultMap id="TenantListMap" type="com.niulijie.ucenter.pojo.view.TenantView">
+        <id column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+        <result column="tenant_name" jdbcType="VARCHAR" property="tenantName" />
+    </resultMap>
+
+    <resultMap id="AccountIdMap" type="java.lang.Integer">
+        <id column="account_id" jdbcType="INTEGER" property="accountId" />
+    </resultMap>
+
+    <resultMap id="DeptIdListMap" type="java.lang.Integer">
+        <id column="dept_id" jdbcType="INTEGER" property="DeptIds" />
+    </resultMap>
+
+    <select id="loginFirst" resultMap="LoginFirstMap">
+        select a.account_id, a.account_name, a.admin, a.user_id, u.name as user_name
+        from ac_account a
+        left join uc_user u on u.user_id = a.user_id
+        where a.account_id = #{accountId,jdbcType=INTEGER}
+    </select>
+
+    <!--
+    <select id="loginByUser" resultMap="LoginFirstMap">
+        select a.account_id, a.account_name, a.admin, a.user_id, u.name as user_name
+        from ac_account a
+        left join uc_user u on u.user_id = a.user_id
+        where u.user_id = #{getUserAO.userId} and u.tenant_id = #{getUserAO.tenantId} and u.status = 0 and a.account_type = 0 and a.status = 0
+    </select>
+    -->
+    <select id="loginByUser" resultMap="LoginUserMap">
+        select ifnull(ua.account_id, a.account_id) as account_id, ifnull(ua.account_name, a.account_name) as account_name, if(ua.admin is null, a.admin, ua.admin) as admin, u.user_id, u.name as user_name
+        from  uc_user u
+        left join ac_account ua on ua.user_id = u.user_id and ua.account_type = 0 and ua.status = 0
+        left join ac_account a on a.user_id = 1 and a.account_type = 1 and a.status = 0
+        where u.tenant_id = #{loginUserAO.tenantId} and u.status = 0
+            <if test="loginUserAO.type== 1" >
+                AND u.user_id = #{loginUserAO.userId}
+            </if>
+            <if test="loginUserAO.type== 2" >
+                AND u.name = #{loginUserAO.name} and u.telephone = #{loginUserAO.tel}
+            </if>
+        limit 0,1
+    </select>
+
+    <select id="getTenantlist" resultMap="TenantListMap">
+        select t.tenant_id, t.tenant_name
+        from ac_account a
+        left join uc_user u on u.user_id = a.user_id
+        left join sys_tenant t on t.tenant_id = u.tenant_id
+        where a.account_id = #{accountId,jdbcType=INTEGER}
+    </select>
+
+    <select id="getDeptIdList" resultMap="DeptIdListMap">
+        select ad.dept_id
+        from ac_account_dept ad
+        left join uc_dept d on d.dept_id = ad.dept_id
+        where ad.account_id = #{accountId,jdbcType=INTEGER} and d.status = 0
+    </select>
+
+    <select id="getUserDeptIdList" resultMap="DeptIdListMap">
+        select ud.dept_id
+        from uc_user_dept ud
+        left join uc_dept d on d.dept_id = ud.dept_id
+        where ud.user_id = #{userId,jdbcType=INTEGER} and d.status = 0
+    </select>
+
+    <select id="getAccountIdByAccessCode" resultMap="AccountIdMap">
+        select account_id from ac_account_token
+        where token = #{accessCode} AND CURRENT_TIMESTAMP &lt; `expire_time`
+        limit 0,1
+    </select>
+
+    <resultMap id="LoginSecondMap" type="com.niulijie.ucenter.pojo.present.VO.login.LoginSecondVO">
+        <result column="account_id" jdbcType="INTEGER" property="accountId" />
+        <result column="user_id" jdbcType="INTEGER" property="userId"/>
+        <result column="user_name" jdbcType="VARCHAR" property="userName" />
+        <result column="tenant_id" jdbcType="INTEGER" property="tenantId" />
+        <collection column="{accountId=account_id,tenantId=tenant_id,roleIds=roleIds}" select="getModulelist" property="moduleItems" ofType="com.niulijie.ucenter.pojo.present.VO.login.ModuleVO">
+        </collection>
+    </resultMap>
+
+    <select id="loginSecond" resultMap="LoginSecondMap">
+        select a.account_id, u.user_id, u.name as user_name, u.tenant_id, #{roleIds} as roleIds
+        from ac_account a
+                 left join uc_user u on u.user_id = a.user_id
+        where a.account_id = #{accountId}
+    </select>
+
+    <select id="getModulelist" resultMap="ModuleListMap">
+        select m.menu_id as module_id, m.parent_id, m.name, m.url, m.sort, #{roleIds} as roleIds
+        from ac_menu m
+        left join ac_role_menu rm on rm.menu_id = m.menu_id
+        where m.type = 0 and m.home = 2 and rm.role_id in
+        <foreach collection="roleIds.split(',')" item="roleId" index="index" separator="," open="(" close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <resultMap id="ModuleListMap" type="com.niulijie.ucenter.pojo.present.VO.login.ModuleVO">
+        <result column="module_id" jdbcType="INTEGER" property="moduleId" />
+        <result column="parent_id" jdbcType="INTEGER" property="parentId" />
+        <result column="name" jdbcType="VARCHAR" property="name" />
+        <result column="url" jdbcType="VARCHAR" property="url" />
+        <result column="sort" jdbcType="INTEGER" property="sort" />
+        <collection column="{parentId=module_id,roleIds=roleIds}" select="getMenulist" property="menuViews" ofType="com.niulijie.ucenter.pojo.present.VO.login.MenuVO">
+        </collection>
+    </resultMap>
+
+    <select id="getMenulist" resultMap="MenuListMap">
+        select m.menu_id, m.parent_id, m.name, m.url, m.sort, m.type, #{roleIds} as roleIds
+        from ac_menu m
+        left join ac_role_menu rm on rm.menu_id = m.menu_id
+        where m.parent_id = #{parentId} and m.home = 2 and m.type &lt;&gt; 0 and rm.role_id in
+        <foreach collection="roleIds.split(',')" item="roleId" index="index" separator="," open="(" close=")">
+            #{roleId}
+        </foreach>
+    </select>
+
+    <resultMap id="MenuListMap" type="com.niulijie.ucenter.pojo.present.VO.login.MenuVO">
+        <result column="menu_id" jdbcType="INTEGER" property="menuId"/>
+        <result column="name" jdbcType="VARCHAR" property="name"/>
+        <result column="url" jdbcType="VARCHAR" property="url"/>
+        <result column="type" jdbcType="INTEGER" property="type"/>
+        <collection column="{parentId=menu_id,roleIds=roleIds}" select="getMenulist" property="menuItems" ofType="com.niulijie.ucenter.pojo.present.VO.login.MenuVO">
+        </collection>
+    </resultMap>
+
+
+    <resultMap id="Rolelist" type="java.lang.String">
+    </resultMap>
+
+    <select id="getRolelistByAccount" resultMap="Rolelist">
+        select role_id from ac_role
+        where role_id in (select role_id from ac_role_data_user where account_id = #{accountId})
+            or role_id in (select role_id from ac_role_data_group where group_id in (select group_id from ac_group_user where user_id = #{accountId}))
+            or role_id in (select role_id from ac_role_data_dept where dept_id in (select dept_id from ac_account_dept where account_id = #{accountId}))
+    </select>
+</mapper>
