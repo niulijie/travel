@@ -127,7 +127,7 @@ public class AuthTokenUtil {
         return claims;
     }
 
-    Boolean isTokenExpired(String token) {
+    public Boolean isTokenExpired(String token) {
         return getExpirationDateFromToken(token).before(clock.now());
     }
 

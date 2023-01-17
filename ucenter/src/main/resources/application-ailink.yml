@@ -13,9 +13,9 @@ config:
 task:
   sync_data: "*/5 * * * * ?"
 auth:
-  account:
-  md5key:
-  expiration:
+  account: 1
+  md5key: 6w4Xn52v5eLSM2Fz
+  expiration: 50000
 
 common:
   projectCode: dxyt

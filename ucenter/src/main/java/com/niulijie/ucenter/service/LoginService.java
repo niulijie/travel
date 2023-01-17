@@ -5,7 +5,7 @@ import com.niulijie.ucenter.pojo.present.AO.login.LoginSecondAO;
 import com.niulijie.ucenter.pojo.present.VO.login.LoginFirstVO;
 import com.niulijie.ucenter.pojo.present.VO.login.LoginSecondVO;
 
-public interface LoginService {
+public interface LoginService extends org.springframework.security.core.userdetails.UserDetailsService{
     /**
      * 首次登录
      * @param loginFistAO

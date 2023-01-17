@@ -18,6 +18,8 @@ import com.niulijie.ucenter.utils.UserIPUtil;
 import com.niulijie.ucenter.utils.ValidatorUtils;
 import com.sun.deploy.util.StringUtils;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.core.userdetails.UserDetails;
+import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Service;
 import org.springframework.util.ObjectUtils;
 
@@ -141,5 +143,10 @@ public class LoginServiceImpl implements LoginService {
 
         LoginSecondVO loginSecondVO = loginMapper.loginSecond(accountId, roleIds);
         return loginSecondVO;
+    }
+
+    @Override
+    public UserDetails loadUserByUsername(String s) throws UsernameNotFoundException {
+        return null;
     }
 }
