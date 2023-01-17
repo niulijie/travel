@@ -1,5 +1,6 @@
 package com.atguigu.admin.servlet;
 
+import com.atguigu.admin.config.MyFilter;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.servlet.ServletListenerRegistrationBean;
 import org.springframework.boot.web.servlet.ServletRegistrationBean;
