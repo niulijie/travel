@@ -1,7 +1,7 @@
 package com.niulijie.juc.thread;
 
 /**
- * 创建线程方式2：实现runnable接口，重写run方法，执行线程需要丢入runnable接口实现类，调用.start方法
+ * 创建线程方式2：实现runnable接口，重写run方法，执行线程需要丢入runnable接口实现类，交给 Thread 运行,调用.start方法
  * @author 86176
  * @create 2021/3/28 20:21
  */

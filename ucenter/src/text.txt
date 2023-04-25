@@ -1,0 +1,4 @@
+一.Spring Security的核心功能
+1. Authentication: 身份认证，用户登录的验证（你是谁）
+2. Authorization: 访问权限，授权资源的访问权限（你能干什么）
+3. 安全防护，防止xss跨站请求，session攻击等
