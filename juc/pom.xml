@@ -13,4 +13,12 @@
 
     <artifactId>juc</artifactId>
 
+    <dependencies>
+        <!-- 为了看到对象头的MarkWord信息，了解锁状态，需要装上该依赖https://mvnrepository.com/artifact/org.openjdk.jol/jol-core -->
+        <dependency>
+            <groupId>org.openjdk.jol</groupId>
+            <artifactId>jol-core</artifactId>
+            <version>0.9</version>
+        </dependency>
+    </dependencies>
 </project>
