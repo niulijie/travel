@@ -46,6 +46,7 @@
         <module>easyexcel</module>
         <module>ucenter</module>
         <module>jwt</module>
+        <module>algorithm</module>
     </modules>
 
     <!-- 属性设置 -->
