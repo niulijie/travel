@@ -31,7 +31,7 @@ class BuyTicketTest implements Runnable{
             try {
                 lock.lock();
                 if(ticketNum>0){
-                    System.out.println(ticketNum--);
+                    System.out.println(Thread.currentThread().getName()+ticketNum--);
                     try {
                         Thread.sleep(1000);
                     } catch (InterruptedException e) {
