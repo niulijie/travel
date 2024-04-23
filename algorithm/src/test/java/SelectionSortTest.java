@@ -50,7 +50,19 @@ public class SelectionSortTest {
     }
 
     private void babbleSort(int[] arr) {
-
+        // 0 ~ n-1
+        // 0 ~ n-2
+        // 0 ~ n-3
+        // 0 ~ end
+        int N = arr.length;
+        for (int end = N-1; end >= 0; end--) {
+            // 0~end 干一坨事情
+            for (int second = 1; second < N; second++) {
+                if(arr[second - 1] > arr [second]){
+                    swap(arr, second - 1, second);
+                }
+            }
+        }
     }
 
     private void swap(int[] arr, int i, int j) {
